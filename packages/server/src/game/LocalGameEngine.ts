@@ -7,51 +7,10 @@ import { readFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { v4 as uuidv4 } from 'uuid';
+import type { LocalGameState, LocalPlayer, LocalSettings } from '@advinha/shared/types';
 
-// Types
-export interface LocalPlayer {
-    id: string;
-    name: string;
-    isImpostor: boolean;
-    isEliminated: boolean;
-    hasRevealed: boolean;
-    hasVoted: boolean;
-}
+// Types are now imported from shared
 
-export interface LocalSettings {
-    impostorCount: number;
-    discussionTime: number; // 0 = disabled, or seconds
-    hideCategory: boolean; // Hide category from impostors
-    selectedCategories: string[]; // Empty = all categories
-}
-
-export type LocalPhase =
-    | 'setup'
-    | 'category'
-    | 'pass_device'
-    | 'local_reveal'
-    | 'discussion'
-    | 'pass_vote'
-    | 'local_vote'
-    | 'round_result'
-    | 'game_result';
-
-export interface LocalGameState {
-    sessionId: string;
-    phase: LocalPhase;
-    players: LocalPlayer[];
-    settings: LocalSettings;
-    category: { id: string; name: string; icon: string } | null;
-    word: string | null;
-    impostorIds: string[];
-    currentPlayerIndex: number; // Who should receive the device
-    currentVoterIndex: number;
-    votes: Record<string, string>; // voterId -> targetId
-    eliminatedThisRound: string | null;
-    roundNumber: number;
-    winner: 'impostors' | 'players' | null;
-    timerEndsAt: number | null;
-}
 
 interface Category {
     id: string;
@@ -82,6 +41,7 @@ const defaultLocalSettings: LocalSettings = {
     impostorCount: 1,
     discussionTime: 180, // 3 minutes
     hideCategory: false,
+    manualVoting: false, // Default: pass & play voting
     selectedCategories: [], // All categories
 };
 
@@ -274,7 +234,14 @@ export class LocalGameEngine {
         const state = this.sessions.get(sessionId);
         if (!state || state.phase !== 'discussion') return null;
 
-        // Reset voting state
+        // Check if manual voting is enabled
+        if (state.settings.manualVoting) {
+            state.phase = 'host_decision';
+            state.timerEndsAt = null;
+            return state;
+        }
+
+        // Pass & Play Voting Logic
         state.votes = {};
         state.currentVoterIndex = 0;
 
@@ -322,6 +289,27 @@ export class LocalGameEngine {
         } else {
             state.phase = 'pass_vote';
         }
+
+        return state;
+    }
+
+    // Host manually eliminates a player (or skips)
+    hostEliminate(sessionId: string, targetId: string | null): LocalGameState | null {
+        const state = this.sessions.get(sessionId);
+        if (!state || state.phase !== 'host_decision') return null;
+
+        if (targetId) {
+            const eliminated = state.players.find(p => p.id === targetId);
+            if (eliminated) {
+                eliminated.isEliminated = true;
+                state.eliminatedThisRound = targetId;
+            }
+        } else {
+            state.eliminatedThisRound = null; // Skipped / Tie
+        }
+
+        state.phase = 'round_result';
+        this.checkWinCondition(state);
 
         return state;
     }

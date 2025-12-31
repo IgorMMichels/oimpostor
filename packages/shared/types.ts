@@ -161,9 +161,27 @@ export interface ClientToServerEvents {
     'game:chat': (message: string) => void;
     'game:vote': (targetId: string) => void;
     'game:next-phase': () => void;
-    'game:submit-hint': (hint: string) => void;          // NEW: Submit hint
-    'game:vote-decision': (decision: 'vote' | 'continue') => void; // NEW: Host decision
+    'game:submit-hint': (hint: string) => void;
+    'game:vote-decision': (decision: 'vote' | 'continue') => void;
     'player:ready': (isReady: boolean) => void;
+
+    // LOCAL MODE EVENTS (Pass & Play)
+    'local:create-session': (callback: (response: LocalSessionResponse) => void) => void;
+    'local:add-player': (sessionId: string, name: string, callback: (response: LocalSessionResponse) => void) => void;
+    'local:remove-player': (sessionId: string, playerId: string, callback: (response: LocalSessionResponse) => void) => void;
+    'local:shuffle-players': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void;
+    'local:update-settings': (sessionId: string, settings: Partial<LocalSettings>, callback: (response: LocalSessionResponse) => void) => void;
+    'local:start-game': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void;
+    'local:start-reveal': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void;
+    'local:player-ready': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void;
+    'local:confirm-reveal': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void;
+    'local:start-voting': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void;
+    'local:voter-ready': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void;
+    'local:submit-vote': (sessionId: string, targetId: string, callback: (response: LocalSessionResponse) => void) => void;
+    'local:host-eliminate': (sessionId: string, targetId: string | null, callback: (response: LocalSessionResponse) => void) => void;
+    'local:continue-game': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void;
+    'local:play-again': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void;
+    'local:get-session': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void;
 }
 
 // Server -> Client
@@ -236,3 +254,73 @@ export const TIMERS = {
     VOTING: 45,               // 45 seconds to vote
     HINT_TIMEOUT: 60,         // 60 seconds per hint (optional)
 } as const;
+
+// ============================================
+// LOCAL MODE TYPES (Pass & Play)
+// ============================================
+
+export interface LocalPlayer {
+    id: string;
+    name: string;
+    isImpostor: boolean;
+    isEliminated: boolean;
+    hasRevealed: boolean;
+    hasVoted: boolean;
+}
+
+export interface LocalSettings {
+    impostorCount: number;
+    discussionTime: number;
+    hideCategory: boolean;
+    manualVoting: boolean; // Custom: manual voting mode
+    selectedCategories: string[];
+}
+
+export type LocalPhase =
+    | 'setup'
+    | 'category'
+    | 'pass_device'
+    | 'local_reveal'
+    | 'discussion'
+    | 'pass_vote'
+    | 'local_vote'
+    | 'host_decision' // Custom: Host decides elimination
+    | 'round_result'
+    | 'game_result';
+
+export interface LocalGameState {
+    sessionId: string;
+    phase: LocalPhase;
+    players: LocalPlayer[];
+    settings: LocalSettings;
+    category: { id: string; name: string; icon: string } | null;
+    word: string | null;
+    impostorIds: string[];
+    currentPlayerIndex: number;
+    currentVoterIndex: number;
+    votes: Record<string, string>;
+    eliminatedThisRound: string | null;
+    roundNumber: number;
+    winner: 'impostors' | 'players' | null;
+    timerEndsAt: number | null;
+}
+
+export interface LocalRoleInfo {
+    playerId: string;
+    playerName: string;
+    isImpostor: boolean;
+    word: string | null;
+    category: { id: string; name: string; icon: string } | null;
+}
+
+export interface LocalSessionResponse {
+    success: boolean;
+    session?: LocalGameState;
+    categories?: { id: string; name: string; icon: string }[];
+    roleInfo?: LocalRoleInfo;
+    voterName?: string;
+    targets?: { id: string; name: string }[];
+    error?: string;
+}
+
+

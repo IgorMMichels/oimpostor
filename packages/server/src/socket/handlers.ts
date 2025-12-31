@@ -458,7 +458,7 @@ export function setupSocketHandlers(
                     category: state.settings.hideCategory && currentPlayer.isImpostor
                         ? null
                         : state.category,
-                } : null;
+                } : undefined;
 
                 callback({ success: true, session: state, roleInfo });
             } else {
