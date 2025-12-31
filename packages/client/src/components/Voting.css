@@ -1,0 +1,164 @@
+/* ============================================
+   Voting Component Styles
+   ============================================ */
+
+.voting-container {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.voting-header {
+  margin-bottom: var(--space-2xl);
+}
+
+.voting-header h2 {
+  font-size: 2rem;
+  margin-bottom: var(--space-sm);
+}
+
+.voting-header p {
+  color: var(--text-secondary);
+  margin-bottom: var(--space-lg);
+}
+
+.vote-progress {
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.vote-count {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-sm);
+}
+
+.vote-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.vote-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  border-radius: var(--radius-full);
+}
+
+/* Players Grid */
+.players-voting-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: var(--space-md);
+  width: 100%;
+  margin-bottom: var(--space-xl);
+}
+
+.voting-player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  position: relative;
+}
+
+.voting-player:hover:not(.self) {
+  border-color: var(--accent-primary);
+  background: var(--bg-tertiary);
+}
+
+.voting-player.self {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.voting-player.selected {
+  border-color: var(--accent-primary);
+  background: rgba(99, 102, 241, 0.15);
+  box-shadow: 0 0 20px var(--glow-primary);
+}
+
+.voting-player .avatar.selectable {
+  transition: transform var(--transition-base);
+}
+
+.voting-player:hover:not(.self) .avatar.selectable {
+  transform: scale(1.1);
+}
+
+.voting-player .player-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.selected-indicator {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  width: 24px;
+  height: 24px;
+  background: var(--accent-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* Voted Message */
+.voted-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-3xl);
+}
+
+.voted-icon {
+  width: 80px;
+  height: 80px;
+  background: var(--accent-success);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: white;
+  margin-bottom: var(--space-xl);
+}
+
+.voted-message h3 {
+  font-size: 1.5rem;
+  margin-bottom: var(--space-sm);
+}
+
+.voted-message p {
+  color: var(--text-secondary);
+}
+
+/* Actions */
+.voting-actions {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .players-voting-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

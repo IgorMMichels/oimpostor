@@ -1,0 +1,169 @@
+/* ============================================
+   Spinner Styles
+   ============================================ */
+
+.spinner-container {
+  position: relative;
+}
+
+.spinner-title {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-2xl);
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.spinner-track {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-xl);
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  position: relative;
+  overflow: hidden;
+}
+
+.spinner-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-xl);
+  font-size: 1.25rem;
+  transition: all var(--transition-fast);
+}
+
+.spinner-item.faded {
+  opacity: 0.3;
+  font-size: 1rem;
+  filter: blur(1px);
+}
+
+.spinner-item.active {
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  border-radius: var(--radius-lg);
+  color: white;
+  font-weight: 600;
+  box-shadow: var(--shadow-lg), 0 0 30px var(--glow-primary);
+  padding: var(--space-lg) var(--space-2xl);
+}
+
+.spinner-icon {
+  font-size: 2rem;
+}
+
+.spinner-name {
+  font-size: 1.5rem;
+}
+
+.spinner-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, var(--glow-primary) 0%, transparent 70%);
+  pointer-events: none;
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Word reveal specific */
+.word-reveal-container {
+  position: relative;
+}
+
+.category-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-lg);
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-full);
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-xl);
+}
+
+.word-display {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  padding: var(--space-xl) var(--space-3xl);
+  background: var(--bg-secondary);
+  border: 2px solid var(--accent-primary);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-glow);
+  letter-spacing: 0.05em;
+}
+
+.word-display.spinning {
+  animation: wordSpin 0.1s ease-in-out infinite;
+}
+
+@keyframes wordSpin {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Role reveal */
+.role-container {
+  padding: var(--space-3xl);
+}
+
+.role-icon {
+  font-size: 6rem;
+  margin-bottom: var(--space-xl);
+}
+
+.role-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: var(--space-md);
+}
+
+.role-title.impostor {
+  color: var(--accent-impostor);
+  text-shadow: 0 0 30px var(--accent-impostor-glow);
+  animation: impostorPulse 1s ease-in-out infinite;
+}
+
+.role-title.player {
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.role-category {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-lg);
+}
+
+.role-word {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  padding: var(--space-lg) var(--space-2xl);
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--accent-primary);
+}
+
+.role-hint {
+  margin-top: var(--space-xl);
+  font-size: 1rem;
+  color: var(--text-muted);
+}
+
+@keyframes impostorPulse {
+  0%, 100% { 
+    text-shadow: 0 0 30px var(--accent-impostor-glow);
+  }
+  50% { 
+    text-shadow: 0 0 50px var(--accent-impostor-glow), 0 0 80px var(--accent-impostor-glow);
+  }
+}
