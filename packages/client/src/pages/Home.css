@@ -1,5 +1,6 @@
 /* ============================================
    Home Page Styles - Redesigned for Impact
+   WOW moments, aggressive copy, social CTAs
    ============================================ */
 
 /* Page Layout */
@@ -83,10 +84,11 @@
 }
 
 .hero-title {
-  font-size: clamp(3rem, 12vw, 5rem);
+  font-size: clamp(2.5rem, 10vw, 5rem);
   font-weight: 900;
   letter-spacing: -0.03em;
   line-height: 1;
+  white-space: nowrap;
   background: linear-gradient(135deg, #ffffff 0%, #a78bfa 50%, #f472b6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -94,12 +96,23 @@
   text-shadow: 0 0 60px rgba(139, 92, 246, 0.3);
 }
 
+/* AGGRESSIVE TAGLINE */
 .hero-tagline {
   font-size: clamp(1.125rem, 4vw, 1.5rem);
   font-weight: 500;
-  color: var(--text-secondary);
-  line-height: 1.5;
+  line-height: 1.6;
   max-width: 320px;
+}
+
+.tagline-main {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.tagline-accent {
+  color: var(--accent-impostor);
+  font-weight: 700;
+  text-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
 }
 
 .hero-description {
@@ -122,7 +135,7 @@
   color: var(--text-muted);
 }
 
-/* CTA Buttons */
+/* CTA Buttons - STRATEGIC */
 .hero-cta {
   display: flex;
   flex-direction: column;
@@ -150,6 +163,8 @@
     0 4px 20px rgba(124, 58, 237, 0.4),
     0 0 0 0 rgba(124, 58, 237, 0.4);
   transition: all 0.2s ease;
+  /* Make button more prominent */
+  min-height: 60px;
 }
 
 .cta-primary:hover:not(:disabled) {
@@ -167,6 +182,40 @@
   font-size: 1.5rem;
 }
 
+/* ESTAMOS JUNTOS - Local Mode Button */
+.cta-local {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-lg);
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(34, 197, 94, 0.05) 100%);
+  border: 2px solid rgba(34, 197, 94, 0.4);
+  border-radius: var(--radius-lg);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent-success);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 56px;
+}
+
+.cta-local:hover {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.25) 0%, rgba(34, 197, 94, 0.1) 100%);
+  border-color: rgba(34, 197, 94, 0.6);
+  box-shadow: 0 4px 20px rgba(34, 197, 94, 0.2);
+}
+
+.cta-badge {
+  padding: 2px 8px;
+  background: rgba(34, 197, 94, 0.2);
+  border-radius: var(--radius-full);
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 .cta-secondary {
   width: 100%;
   padding: var(--space-md) var(--space-lg);
@@ -178,6 +227,7 @@
   color: var(--text-secondary);
   cursor: pointer;
   transition: all 0.2s ease;
+  min-height: 52px;
 }
 
 .cta-secondary:hover:not(:disabled) {
@@ -189,6 +239,65 @@
 .cta-secondary:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* SOCIAL SECTION */
+.social-section {
+  margin-top: var(--space-xl);
+  text-align: center;
+  width: 100%;
+}
+
+.social-label {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-md);
+  font-weight: 500;
+}
+
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+}
+
+.social-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-lg);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  min-height: 44px;
+}
+
+.social-btn.whatsapp {
+  background: #25D366;
+  color: white;
+}
+
+.social-btn.whatsapp:hover {
+  background: #1ebe5d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+}
+
+.social-btn.discord {
+  background: #5865F2;
+  color: white;
+}
+
+.social-btn.discord:hover {
+  background: #4752c4;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4);
+}
+
+.social-btn svg {
+  flex-shrink: 0;
 }
 
 /* How it works */
@@ -265,6 +374,7 @@
   color: var(--text-muted);
   cursor: pointer;
   transition: color 0.2s;
+  min-height: 44px;
 }
 
 .back-button:hover {
@@ -315,6 +425,7 @@
   font-size: 1.125rem;
   color: var(--text-primary);
   transition: all 0.2s;
+  min-height: 56px;
 }
 
 .input-large:focus {
@@ -341,6 +452,7 @@
   color: var(--text-primary);
   text-transform: uppercase;
   transition: all 0.2s;
+  min-height: 64px;
 }
 
 .input-code:focus {
@@ -375,6 +487,7 @@
   color: white;
   cursor: pointer;
   transition: all 0.2s;
+  min-height: 56px;
 }
 
 .submit-button:hover:not(:disabled) {
@@ -412,7 +525,7 @@
   opacity: 0.6;
 }
 
-/* Mobile Adjustments */
+/* Mobile Adjustments - Bigger touch targets */
 @media (max-width: 480px) {
   .home-page {
     padding: var(--space-md);
@@ -439,6 +552,22 @@
   .cta-primary {
     padding: var(--space-md) var(--space-lg);
     font-size: 1.125rem;
+    min-height: 56px;
+  }
+
+  .cta-secondary {
+    min-height: 48px;
+  }
+
+  .social-buttons {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .social-btn {
+    justify-content: center;
+    width: 100%;
+    min-height: 48px;
   }
 
   .form-card {
@@ -451,5 +580,15 @@
 
   .step-text {
     font-size: 0.875rem;
+  }
+
+  .input-large,
+  .input-code {
+    min-height: 52px;
+  }
+
+  .submit-button,
+  .back-button {
+    min-height: 52px;
   }
 }

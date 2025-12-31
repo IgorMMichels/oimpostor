@@ -1,0 +1,253 @@
+/* ============================================
+   Intro Animation Styles
+   Dramatic entrance with suspense effects
+   ============================================ */
+
+.intro-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: linear-gradient(180deg, #05050a 0%, #0a0a12 50%, #0f0f1a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Silhouettes */
+.silhouettes-container {
+    position: absolute;
+    bottom: 20%;
+    left: 0;
+    right: 0;
+    height: 200px;
+    pointer-events: none;
+}
+
+.silhouette {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateX(-50%);
+}
+
+.silhouette-head {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1a 100%);
+    border-radius: 50%;
+    box-shadow: 
+        0 0 20px rgba(99, 102, 241, 0.2),
+        inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.silhouette-body {
+    width: 50px;
+    height: 80px;
+    background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1a 100%);
+    border-radius: 25px 25px 0 0;
+    margin-top: -10px;
+    box-shadow: 
+        0 0 30px rgba(99, 102, 241, 0.15),
+        inset 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.silhouette-question {
+    position: absolute;
+    top: -30px;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: rgba(239, 68, 68, 0.8);
+    text-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+    animation: float-question 2s ease-in-out infinite;
+}
+
+@keyframes float-question {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* Scan Line */
+.scan-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(239, 68, 68, 0.3) 20%,
+        rgba(239, 68, 68, 0.8) 50%,
+        rgba(239, 68, 68, 0.3) 80%,
+        transparent 100%
+    );
+    box-shadow: 
+        0 0 20px rgba(239, 68, 68, 0.6),
+        0 0 40px rgba(239, 68, 68, 0.4),
+        0 0 60px rgba(239, 68, 68, 0.2);
+    z-index: 10;
+}
+
+.scan-line::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -100px;
+    height: 100px;
+    background: linear-gradient(
+        180deg,
+        transparent 0%,
+        rgba(239, 68, 68, 0.05) 100%
+    );
+}
+
+/* Title Container */
+.intro-title-container {
+    position: relative;
+    z-index: 20;
+    text-align: center;
+}
+
+/* Glitch Effect */
+.intro-title {
+    font-size: clamp(2.5rem, 15vw, 8rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: #fff;
+    position: relative;
+    text-shadow: 0 0 40px rgba(139, 92, 246, 0.5);
+    white-space: nowrap;
+}
+
+.intro-title.glitch {
+    animation: glitch 3s infinite;
+}
+
+.intro-title.glitch::before,
+.intro-title.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.intro-title.glitch::before {
+    color: #ef4444;
+    animation: glitch-1 0.3s infinite;
+    clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+    transform: translateX(-2px);
+}
+
+.intro-title.glitch::after {
+    color: #3b82f6;
+    animation: glitch-2 0.3s infinite;
+    clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+    transform: translateX(2px);
+}
+
+@keyframes glitch {
+    0%, 90%, 100% {
+        transform: translate(0);
+    }
+    92% {
+        transform: translate(-2px, 1px);
+    }
+    94% {
+        transform: translate(2px, -1px);
+    }
+    96% {
+        transform: translate(-1px, 2px);
+    }
+    98% {
+        transform: translate(1px, -2px);
+    }
+}
+
+@keyframes glitch-1 {
+    0%, 100% {
+        transform: translateX(-2px);
+        opacity: 0.8;
+    }
+    50% {
+        transform: translateX(2px);
+        opacity: 0.5;
+    }
+}
+
+@keyframes glitch-2 {
+    0%, 100% {
+        transform: translateX(2px);
+        opacity: 0.8;
+    }
+    50% {
+        transform: translateX(-2px);
+        opacity: 0.5;
+    }
+}
+
+/* Tagline */
+.intro-tagline {
+    font-size: clamp(1.25rem, 4vw, 2rem);
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: var(--space-lg);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+}
+
+/* Particles */
+.particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: rgba(139, 92, 246, 0.6);
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(139, 92, 246, 0.4);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .silhouette-head {
+        width: 30px;
+        height: 30px;
+    }
+
+    .silhouette-body {
+        width: 40px;
+        height: 60px;
+    }
+
+    .silhouette-question {
+        font-size: 1.2rem;
+        top: -25px;
+    }
+
+    .silhouettes-container {
+        bottom: 25%;
+    }
+}
+
+@media (max-width: 480px) {
+    .silhouette:nth-child(n+5) {
+        display: none;
+    }
+
+    .silhouette {
+        left: calc(15% + var(--i, 0) * 20%) !important;
+    }
+
+    .silhouette:nth-child(1) { --i: 0; }
+    .silhouette:nth-child(2) { --i: 1; }
+    .silhouette:nth-child(3) { --i: 2; }
+    .silhouette:nth-child(4) { --i: 3; }
+}

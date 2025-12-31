@@ -1,0 +1,272 @@
+{
+  "categories": [
+    {
+      "id": "animais",
+      "name": "Animais",
+      "icon": "🐾",
+      "words": [
+        "Cachorro", "Gato", "Elefante", "Leão", "Tigre", "Urso", "Macaco", "Girafa",
+        "Zebra", "Hipopótamo", "Rinoceronte", "Gorila", "Panda", "Canguru", "Koala",
+        "Lobo", "Raposa", "Veado", "Alce", "Búfalo", "Javali", "Porco", "Vaca",
+        "Cavalo", "Burro", "Ovelha", "Cabra", "Coelho", "Hamster", "Rato",
+        "Esquilo", "Castor", "Lontra", "Foca", "Golfinho", "Baleia", "Tubarão",
+        "Polvo", "Água-viva", "Caranguejo", "Lagosta", "Tartaruga", "Jacaré",
+        "Crocodilo", "Cobra", "Lagarto", "Camaleão", "Iguana", "Sapo", "Rã",
+        "Águia", "Coruja", "Papagaio", "Tucano", "Pinguim", "Flamingo", "Cisne",
+        "Pato", "Galinha", "Galo", "Peru", "Pavão", "Avestruz", "Formiga",
+        "Abelha", "Borboleta", "Joaninha", "Aranha", "Escorpião", "Morcego"
+      ]
+    },
+    {
+      "id": "comidas",
+      "name": "Comidas",
+      "icon": "🍕",
+      "words": [
+        "Pizza", "Hambúrguer", "Sushi", "Lasanha", "Macarrão", "Arroz", "Feijão",
+        "Feijoada", "Churrasco", "Picanha", "Frango", "Peixe", "Camarão", "Ovo",
+        "Salada", "Sopa", "Caldo", "Pastel", "Coxinha", "Empada", "Quibe",
+        "Esfirra", "Pão de queijo", "Tapioca", "Açaí", "Brigadeiro", "Pudim",
+        "Bolo", "Torta", "Sorvete", "Chocolate", "Biscoito", "Pipoca", "Batata frita",
+        "Hot dog", "Sanduíche", "Wrap", "Burrito", "Taco", "Nachos", "Risoto",
+        "Strogonoff", "Moqueca", "Acarajé", "Vatapá", "Paella", "Ramen", "Pad Thai",
+        "Curry", "Fondue", "Raclette", "Croissant", "Waffle", "Panqueca", "Omelete",
+        "Quiche", "Crepe", "Churros", "Donut", "Cheesecake", "Tiramisu", "Mousse"
+      ]
+    },
+    {
+      "id": "profissoes",
+      "name": "Profissões",
+      "icon": "👔",
+      "words": [
+        "Médico", "Enfermeiro", "Dentista", "Veterinário", "Farmacêutico", "Psicólogo",
+        "Advogado", "Juiz", "Promotor", "Delegado", "Policial", "Bombeiro",
+        "Professor", "Diretor", "Coordenador", "Pedagogo", "Bibliotecário",
+        "Engenheiro", "Arquiteto", "Pedreiro", "Eletricista", "Encanador", "Pintor",
+        "Marceneiro", "Carpinteiro", "Mecânico", "Motorista", "Piloto", "Comissário",
+        "Cozinheiro", "Garçom", "Bartender", "Padeiro", "Confeiteiro", "Açougueiro",
+        "Vendedor", "Gerente", "Empresário", "Contador", "Economista", "Administrador",
+        "Programador", "Designer", "Fotógrafo", "Cinegrafista", "Jornalista", "Escritor",
+        "Ator", "Músico", "Cantor", "Dançarino", "Atleta", "Treinador", "Árbitro",
+        "Agricultor", "Pescador", "Lenhador", "Mineiro", "Oceanógrafo", "Astrônomo",
+        "Cientista", "Pesquisador", "Biólogo", "Químico", "Físico", "Matemático"
+      ]
+    },
+    {
+      "id": "lugares",
+      "name": "Lugares",
+      "icon": "🌍",
+      "words": [
+        "Praia", "Montanha", "Floresta", "Deserto", "Ilha", "Vulcão", "Cachoeira",
+        "Rio", "Lago", "Oceano", "Caverna", "Vale", "Planície", "Pântano",
+        "Hospital", "Escola", "Universidade", "Biblioteca", "Museu", "Teatro",
+        "Cinema", "Shopping", "Supermercado", "Farmácia", "Padaria", "Restaurante",
+        "Café", "Bar", "Balada", "Hotel", "Pousada", "Camping", "Aeroporto",
+        "Rodoviária", "Estação", "Porto", "Parque", "Praça", "Jardim", "Zoológico",
+        "Aquário", "Circo", "Estádio", "Ginásio", "Academia", "Piscina", "Spa",
+        "Igreja", "Templo", "Mesquita", "Cemitério", "Prisão", "Tribunal", "Prefeitura",
+        "Delegacia", "Quartel", "Fazenda", "Sítio", "Chácara", "Rancho", "Castelo",
+        "Palácio", "Torre", "Farol", "Ponte", "Túnel", "Metrô", "Favela"
+      ]
+    },
+    {
+      "id": "esportes",
+      "name": "Esportes",
+      "icon": "⚽",
+      "words": [
+        "Futebol", "Basquete", "Vôlei", "Tênis", "Handebol", "Rugby", "Futebol Americano",
+        "Beisebol", "Golfe", "Críquete", "Hóquei", "Polo", "Boxe", "MMA", "Judô",
+        "Karatê", "Taekwondo", "Jiu-jitsu", "Esgrima", "Luta livre", "Wrestling",
+        "Natação", "Salto ornamental", "Polo aquático", "Nado sincronizado", "Surf",
+        "Windsurf", "Kitesurf", "Wakeboard", "Jet ski", "Remo", "Canoagem", "Vela",
+        "Ciclismo", "Mountain bike", "BMX", "Skate", "Patins", "Corrida", "Maratona",
+        "Atletismo", "Salto em altura", "Salto com vara", "Lançamento de dardo",
+        "Arremesso de peso", "Ginástica", "Ginástica rítmica", "Trampolim", "Escalada",
+        "Alpinismo", "Parkour", "Equitação", "Hipismo", "Tiro ao alvo", "Arco e flecha",
+        "Boliche", "Bilhar", "Sinuca", "Dardos", "Xadrez", "Poker", "Paintball"
+      ]
+    },
+    {
+      "id": "filmes",
+      "name": "Filmes & Séries",
+      "icon": "🎬",
+      "words": [
+        "Titanic", "Avatar", "Matrix", "Star Wars", "Harry Potter", "Senhor dos Anéis",
+        "Vingadores", "Homem-Aranha", "Batman", "Superman", "Frozen", "Rei Leão",
+        "Toy Story", "Shrek", "Procurando Nemo", "Monstros S.A.", "Up", "Wall-E",
+        "Jurassic Park", "Indiana Jones", "Piratas do Caribe", "Missão Impossível",
+        "Velozes e Furiosos", "Transformers", "Exterminador do Futuro", "Alien",
+        "Predador", "Rocky", "Rambo", "007", "Forrest Gump", "O Poderoso Chefão",
+        "Gladiador", "Coração Valente", "Spartacus", "Ben-Hur", "E.T.", "De Volta para o Futuro",
+        "Breaking Bad", "Game of Thrones", "The Office", "Friends", "How I Met Your Mother",
+        "Grey's Anatomy", "The Walking Dead", "Stranger Things", "La Casa de Papel",
+        "Narcos", "Peaky Blinders", "Vikings", "The Witcher", "Mandalorian", "WandaVision",
+        "The Crown", "Bridgerton", "Squid Game", "Round 6", "Black Mirror"
+      ]
+    },
+    {
+      "id": "musica",
+      "name": "Música",
+      "icon": "🎵",
+      "words": [
+        "Violão", "Guitarra", "Baixo", "Bateria", "Piano", "Teclado", "Violino",
+        "Viola", "Violoncelo", "Contrabaixo", "Harpa", "Flauta", "Clarinete",
+        "Saxofone", "Trompete", "Trombone", "Tuba", "Oboé", "Fagote", "Gaita",
+        "Sanfona", "Acordeão", "Cavaquinho", "Bandolim", "Ukulele", "Banjo",
+        "Pandeiro", "Tambor", "Bongô", "Congas", "Xilofone", "Marimba", "Triângulo",
+        "Chocalho", "Castanhola", "Berimbau", "Cuíca", "Surdo", "Repique", "Tamborim",
+        "Rock", "Pop", "Jazz", "Blues", "Reggae", "Samba", "Pagode", "Funk",
+        "Sertanejo", "Forró", "MPB", "Bossa Nova", "Hip Hop", "Rap", "Eletrônica",
+        "House", "Techno", "Trance", "K-Pop", "Heavy Metal", "Punk", "Indie"
+      ]
+    },
+    {
+      "id": "objetos",
+      "name": "Objetos",
+      "icon": "📦",
+      "words": [
+        "Celular", "Computador", "Notebook", "Tablet", "Televisão", "Controle remoto",
+        "Fone de ouvido", "Caixa de som", "Microfone", "Câmera", "Relógio", "Óculos",
+        "Caneta", "Lápis", "Caderno", "Livro", "Mochila", "Bolsa", "Carteira",
+        "Chave", "Guarda-chuva", "Lanterna", "Isqueiro", "Vela", "Espelho",
+        "Escova de dentes", "Pasta de dente", "Sabonete", "Shampoo", "Toalha",
+        "Travesseiro", "Cobertor", "Lençol", "Colchão", "Cama", "Sofá", "Cadeira",
+        "Mesa", "Armário", "Estante", "Gaveta", "Lâmpada", "Ventilador", "Ar condicionado",
+        "Geladeira", "Fogão", "Micro-ondas", "Liquidificador", "Batedeira", "Torradeira",
+        "Cafeteira", "Panela", "Frigideira", "Prato", "Copo", "Talher", "Faca",
+        "Tesoura", "Martelo", "Chave de fenda", "Alicate", "Vassoura", "Rodo"
+      ]
+    },
+    {
+      "id": "roupas",
+      "name": "Roupas & Acessórios",
+      "icon": "👕",
+      "words": [
+        "Camiseta", "Camisa", "Polo", "Regata", "Blusa", "Suéter", "Moletom",
+        "Casaco", "Jaqueta", "Blazer", "Terno", "Vestido", "Saia", "Calça",
+        "Shorts", "Bermuda", "Legging", "Macacão", "Jardineira", "Cueca", "Calcinha",
+        "Sutiã", "Meia", "Pijama", "Roupão", "Biquíni", "Maiô", "Sunga",
+        "Sapato", "Tênis", "Sandália", "Chinelo", "Bota", "Salto alto", "Mocassim",
+        "Sapatênis", "Chapéu", "Boné", "Touca", "Gorro", "Lenço", "Cachecol",
+        "Gravata", "Suspensório", "Cinto", "Pulseira", "Colar", "Brinco", "Anel",
+        "Aliança", "Pingente", "Corrente", "Relógio", "Óculos de sol", "Luva",
+        "Máscara", "Avental", "Uniforme", "Fantasia", "Colete", "Poncho", "Capuz"
+      ]
+    },
+    {
+      "id": "veiculos",
+      "name": "Veículos",
+      "icon": "🚗",
+      "words": [
+        "Carro", "Moto", "Bicicleta", "Ônibus", "Caminhão", "Van", "Kombi",
+        "Ambulância", "Carro de polícia", "Carro de bombeiro", "Táxi", "Uber",
+        "Trem", "Metrô", "Bonde", "Monotrilho", "Avião", "Helicóptero", "Jato",
+        "Balão", "Dirigível", "Planador", "Parapente", "Asa delta", "Drone",
+        "Navio", "Barco", "Lancha", "Iate", "Veleiro", "Canoa", "Caiaque",
+        "Jet ski", "Submarino", "Porta-aviões", "Fragata", "Cruzeiro", "Balsa",
+        "Patinete", "Skate", "Patins", "Segway", "Triciclo", "Quadriciclo",
+        "Kart", "Fórmula 1", "Buggy", "Jipe", "SUV", "Picape", "Sedan",
+        "Hatch", "Perua", "Conversível", "Limusine", "Food truck", "Trailer",
+        "Motorhome", "Carroça", "Charrete", "Trenó", "Teleférico", "Bondinho"
+      ]
+    },
+    {
+      "id": "natureza",
+      "name": "Natureza",
+      "icon": "🌿",
+      "words": [
+        "Árvore", "Flor", "Grama", "Folha", "Galho", "Raiz", "Tronco", "Semente",
+        "Fruto", "Rosa", "Girassol", "Margarida", "Tulipa", "Orquídea", "Violeta",
+        "Lírio", "Jasmim", "Lavanda", "Samambaia", "Cacto", "Bambu", "Palmeira",
+        "Pinheiro", "Carvalho", "Eucalipto", "Mangueira", "Laranjeira", "Limoeiro",
+        "Sol", "Lua", "Estrela", "Planeta", "Cometa", "Meteoro", "Galáxia",
+        "Nuvem", "Chuva", "Neve", "Granizo", "Raio", "Trovão", "Relâmpago",
+        "Arco-íris", "Neblina", "Névoa", "Orvalho", "Geada", "Tornado", "Furacão",
+        "Tsunami", "Terremoto", "Vulcão", "Lava", "Cristal", "Pedra", "Rocha",
+        "Areia", "Argila", "Terra", "Ouro", "Prata", "Diamante", "Esmeralda"
+      ]
+    },
+    {
+      "id": "tecnologia",
+      "name": "Tecnologia",
+      "icon": "💻",
+      "words": [
+        "Internet", "Wi-Fi", "Bluetooth", "USB", "HDMI", "Programa", "Aplicativo",
+        "Software", "Hardware", "Servidor", "Nuvem", "Backup", "Download", "Upload",
+        "Streaming", "Podcast", "Blog", "Site", "Rede social", "E-mail", "Spam",
+        "Vírus", "Antivírus", "Firewall", "Criptografia", "Senha", "Login", "Avatar",
+        "Emoji", "Meme", "Hashtag", "Trending", "Like", "Share", "Follow",
+        "Algoritmo", "Inteligência artificial", "Machine learning", "Big data",
+        "Blockchain", "Bitcoin", "NFT", "Metaverso", "Realidade virtual", "Realidade aumentada",
+        "GPS", "QR Code", "Código de barras", "Touch screen", "Reconhecimento facial",
+        "Impressora 3D", "Drone", "Robô", "Satélite", "Fibra ótica", "5G",
+        "Startup", "E-commerce", "Fintech", "Edtech", "Healthtech", "Proptech"
+      ]
+    },
+    {
+      "id": "corpo",
+      "name": "Corpo Humano",
+      "icon": "🫀",
+      "words": [
+        "Cabeça", "Cabelo", "Testa", "Sobrancelha", "Olho", "Cílio", "Pálpebra",
+        "Nariz", "Narina", "Bochecha", "Orelha", "Boca", "Lábio", "Dente",
+        "Língua", "Garganta", "Queixo", "Pescoço", "Ombro", "Braço", "Cotovelo",
+        "Antebraço", "Pulso", "Mão", "Palma", "Dedo", "Unha", "Polegar",
+        "Peito", "Costas", "Barriga", "Umbigo", "Cintura", "Quadril", "Bumbum",
+        "Perna", "Coxa", "Joelho", "Canela", "Tornozelo", "Pé", "Calcanhar",
+        "Cérebro", "Coração", "Pulmão", "Fígado", "Rim", "Estômago", "Intestino",
+        "Osso", "Músculo", "Tendão", "Artéria", "Veia", "Pele", "Sangue",
+        "Coluna", "Costela", "Crânio", "Mandíbula", "Clavícula", "Escápula"
+      ]
+    },
+    {
+      "id": "emocoes",
+      "name": "Emoções & Sentimentos",
+      "icon": "😊",
+      "words": [
+        "Alegria", "Felicidade", "Tristeza", "Raiva", "Medo", "Surpresa", "Nojo",
+        "Amor", "Paixão", "Carinho", "Afeto", "Ternura", "Saudade", "Nostalgia",
+        "Ansiedade", "Nervosismo", "Preocupação", "Estresse", "Angústia", "Pânico",
+        "Calma", "Paz", "Tranquilidade", "Serenidade", "Relaxamento", "Alívio",
+        "Confiança", "Orgulho", "Satisfação", "Gratidão", "Esperança", "Otimismo",
+        "Desânimo", "Frustração", "Decepção", "Arrependimento", "Culpa", "Vergonha",
+        "Timidez", "Embaraço", "Constrangimento", "Inveja", "Ciúme", "Ódio",
+        "Desprezo", "Irritação", "Impaciência", "Tédio", "Solidão", "Abandono",
+        "Curiosidade", "Interesse", "Admiração", "Encantamento", "Êxtase", "Euforia",
+        "Empolgação", "Entusiasmo", "Animação", "Coragem", "Determinação", "Resiliência"
+      ]
+    },
+    {
+      "id": "fantasia",
+      "name": "Fantasia & Mitologia",
+      "icon": "🧙",
+      "words": [
+        "Dragão", "Unicórnio", "Fênix", "Grifo", "Quimera", "Hidra", "Cérbero",
+        "Minotauro", "Centauro", "Medusa", "Ciclope", "Titã", "Sereía", "Tritão",
+        "Elfo", "Anão", "Orc", "Goblin", "Troll", "Ogro", "Gigante", "Gnomo",
+        "Fada", "Duende", "Leprechaun", "Pixie", "Ninfa", "Dríade", "Musa",
+        "Bruxa", "Mago", "Feiticeiro", "Necromante", "Druida", "Xamã", "Alquimista",
+        "Vampiro", "Lobisomem", "Zumbi", "Múmia", "Fantasma", "Espírito", "Demônio",
+        "Anjo", "Arcanjo", "Querubim", "Serafim", "Deus", "Deusa", "Semideus",
+        "Rei Arthur", "Merlin", "Excalibur", "Graal", "Thor", "Odin", "Zeus",
+        "Poseidon", "Hades", "Atena", "Apolo", "Afrodite", "Ares", "Loki"
+      ]
+    },
+    {
+      "id": "marcas",
+      "name": "Marcas Famosas",
+      "icon": "™️",
+      "words": [
+        "Apple", "Google", "Microsoft", "Amazon", "Facebook", "Instagram", "WhatsApp",
+        "YouTube", "Netflix", "Spotify", "Twitter", "TikTok", "Uber", "Airbnb",
+        "Nike", "Adidas", "Puma", "Reebok", "Coca-Cola", "Pepsi", "McDonald's",
+        "Burger King", "Starbucks", "Subway", "Pizza Hut", "KFC", "Nestlé",
+        "Samsung", "LG", "Sony", "Nintendo", "PlayStation", "Xbox", "Tesla",
+        "BMW", "Mercedes", "Audi", "Toyota", "Honda", "Ferrari", "Lamborghini",
+        "Gucci", "Louis Vuitton", "Chanel", "Dior", "Prada", "Hermès", "Rolex",
+        "Ray-Ban", "Havaianas", "Natura", "O Boticário", "Globo", "Band", "SBT",
+        "Nubank", "Itaú", "Bradesco", "Santander", "Magazine Luiza", "Americanas",
+        "Mercado Livre", "Casas Bahia", "Lojas Renner", "C&A", "Riachuelo"
+      ]
+    }
+  ]
+}

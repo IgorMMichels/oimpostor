@@ -1,6 +1,6 @@
 // ============================================
-// ADVINHA - Lobby Page (Improved UX)
-// Better social features and visual polish
+// ADVINHA - Lobby Page (Improved Social UX)
+// Better invite experience and visual polish
 // ============================================
 
 import { useEffect, useState } from 'react';
@@ -37,7 +37,8 @@ export default function Lobby() {
     if (!room) return null;
 
     const inviteLink = `${window.location.origin}/sala/${room.code}`;
-    const whatsappLink = `https://wa.me/?text=${encodeURIComponent(`🎭 Vem jogar Advinha comigo!\n\nDescubra quem é o impostor:\n${inviteLink}`)}`;
+    const whatsappMessage = `🎭 *Vem jogar O Impostor comigo!*\n\nDescubra quem é o impostor 🔍\n\n👉 ${inviteLink}\n\nOu digite o código: *${room.code}*`;
+    const whatsappLink = `https://wa.me/?text=${encodeURIComponent(whatsappMessage)}`;
 
     const copyInviteLink = async () => {
         try {
@@ -95,7 +96,7 @@ export default function Lobby() {
             </motion.header>
 
             <div className="lobby-content">
-                {/* Invite Section - Priority */}
+                {/* INVITE SECTION - PRIORITY */}
                 <motion.section
                     className="invite-section"
                     initial={{ opacity: 0, y: 20 }}
@@ -103,33 +104,49 @@ export default function Lobby() {
                     transition={{ delay: 0.1 }}
                 >
                     <div className="invite-header">
-                        <h2>🎉 Convide seus amigos!</h2>
-                        <p>Compartilhe o link para eles entrarem</p>
+                        <h2>🎉 Chame a galera!</h2>
+                        <p>Compartilhe o link ou código com seus amigos</p>
                     </div>
 
-                    <div className="invite-actions">
-                        <motion.button
-                            className={`copy-btn ${copied ? 'copied' : ''}`}
-                            onClick={copyInviteLink}
-                            whileTap={{ scale: 0.98 }}
-                        >
-                            {copied ? '✅ Link copiado!' : '📋 Copiar link'}
-                        </motion.button>
-
+                    {/* PROMINENT SOCIAL BUTTONS */}
+                    <div className="invite-actions-grid">
                         <motion.a
                             href={whatsappLink}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="whatsapp-btn"
+                            className="invite-btn whatsapp-btn"
+                            whileHover={{ scale: 1.02, y: -2 }}
+                            whileTap={{ scale: 0.98 }}
+                        >
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                            </svg>
+                            <span>Compartilhar no WhatsApp</span>
+                        </motion.a>
+
+                        <motion.button
+                            className={`invite-btn copy-btn ${copied ? 'copied' : ''}`}
+                            onClick={copyInviteLink}
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                         >
-                            💬 WhatsApp
-                        </motion.a>
+                            {copied ? (
+                                <>
+                                    <span className="copy-icon">✅</span>
+                                    <span>Link copiado!</span>
+                                </>
+                            ) : (
+                                <>
+                                    <span className="copy-icon">📋</span>
+                                    <span>Copiar link</span>
+                                </>
+                            )}
+                        </motion.button>
                     </div>
 
+                    {/* CODE DISPLAY */}
                     <div className="code-display">
-                        <span className="code-label">Ou digite o código:</span>
+                        <span className="code-label">Código da sala:</span>
                         <span className="code-value">{room.code}</span>
                     </div>
                 </motion.section>
@@ -176,10 +193,16 @@ export default function Lobby() {
                         ))}
                     </div>
 
+                    {/* CLEAR WAITING STATE */}
                     {!canStart && (
-                        <div className="waiting-message">
-                            ⏳ Aguardando mais {playersNeeded} {playersNeeded === 1 ? 'jogador' : 'jogadores'}
-                        </div>
+                        <motion.div
+                            className="waiting-message"
+                            animate={{ opacity: [0.7, 1, 0.7] }}
+                            transition={{ repeat: Infinity, duration: 2 }}
+                        >
+                            <span className="waiting-icon">⏳</span>
+                            <span>Aguardando mais {playersNeeded} {playersNeeded === 1 ? 'jogador' : 'jogadores'} para começar</span>
+                        </motion.div>
                     )}
                 </motion.section>
 
@@ -229,7 +252,7 @@ export default function Lobby() {
 
                                     {!room.settings.chatEnabled && (
                                         <div className="setting-note">
-                                            🤝 Modo "Estamos Juntos" - conversa presencial!
+                                            🤝 Modo presencial - conversem pessoalmente!
                                         </div>
                                     )}
                                 </motion.div>

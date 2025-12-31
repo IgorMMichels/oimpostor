@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import JoinRoom from './pages/JoinRoom';
 import Lobby from './pages/Lobby';
 import Game from './pages/Game';
+import LocalGame from './pages/LocalGame';
 import Demo from './pages/Demo';
 
 function App() {
@@ -21,9 +22,11 @@ function App() {
             {/* Join room from link - shows join form OR lobby if already in room */}
             <Route path="/sala/:code" element={room ? <Lobby /> : <JoinRoom />} />
             <Route path="/jogo/:code" element={<Game />} />
+            <Route path="/local" element={<LocalGame />} />
             <Route path="/demo" element={<Demo />} />
         </Routes>
     );
 }
 
 export default App;
+

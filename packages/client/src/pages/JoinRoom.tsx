@@ -106,7 +106,7 @@ export default function JoinRoom() {
             </div>
 
             <footer className="home-footer">
-                <p>Advinha • Jogo de dedução social</p>
+                <p>O Impostor • Jogo de dedução social</p>
             </footer>
         </div>
     );

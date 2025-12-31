@@ -6,6 +6,7 @@
 import { Server, Socket } from 'socket.io';
 import { RoomManager } from '../rooms/RoomManager.js';
 import { GameEngine, getCategories } from '../game/GameEngine.js';
+import { localGameEngine } from '../game/LocalGameEngine.js';
 import {
     type ClientToServerEvents,
     type ServerToClientEvents,
@@ -345,6 +346,211 @@ export function setupSocketHandlers(
             if (!engine) return;
 
             advancePhase(io, room, engine, roomManager);
+        });
+
+        // ==========================================
+        // LOCAL MODE EVENTS (Pass & Play)
+        // ==========================================
+
+        // Create local session
+        socket.on('local:create-session', (callback) => {
+            try {
+                const state = localGameEngine.createSession();
+                const categories = localGameEngine.getCategories();
+
+                // Store socket ID with session for future reference
+                socket.join(`local:${state.sessionId}`);
+
+                callback({
+                    success: true,
+                    session: state,
+                    categories,
+                });
+
+                console.log(`[Local] Session created: ${state.sessionId}`);
+            } catch (error) {
+                console.error('[Local] Error creating session:', error);
+                callback({
+                    success: false,
+                    error: 'Erro ao criar sessão.',
+                });
+            }
+        });
+
+        // Add player to local session
+        socket.on('local:add-player', (sessionId, name, callback) => {
+            const state = localGameEngine.addPlayer(sessionId, name);
+
+            if (state) {
+                callback({ success: true, session: state });
+            } else {
+                callback({ success: false, error: 'Nome já existe ou limite atingido.' });
+            }
+        });
+
+        // Remove player from local session
+        socket.on('local:remove-player', (sessionId, playerId, callback) => {
+            const state = localGameEngine.removePlayer(sessionId, playerId);
+
+            if (state) {
+                callback({ success: true, session: state });
+            } else {
+                callback({ success: false, error: 'Erro ao remover jogador.' });
+            }
+        });
+
+        // Shuffle players
+        socket.on('local:shuffle-players', (sessionId, callback) => {
+            const state = localGameEngine.shufflePlayers(sessionId);
+
+            if (state) {
+                callback({ success: true, session: state });
+            } else {
+                callback({ success: false, error: 'Erro ao embaralhar.' });
+            }
+        });
+
+        // Update local settings
+        socket.on('local:update-settings', (sessionId, settings, callback) => {
+            const state = localGameEngine.updateSettings(sessionId, settings);
+
+            if (state) {
+                callback({ success: true, session: state });
+            } else {
+                callback({ success: false, error: 'Erro ao atualizar configurações.' });
+            }
+        });
+
+        // Start local game
+        socket.on('local:start-game', (sessionId, callback) => {
+            const state = localGameEngine.startGame(sessionId);
+
+            if (state) {
+                callback({ success: true, session: state });
+            } else {
+                callback({ success: false, error: 'Erro ao iniciar jogo. Mínimo 3 jogadores.' });
+            }
+        });
+
+        // Proceed from category to reveal phase
+        socket.on('local:start-reveal', (sessionId, callback) => {
+            const state = localGameEngine.startRevealPhase(sessionId);
+
+            if (state) {
+                callback({ success: true, session: state });
+            } else {
+                callback({ success: false, error: 'Erro ao iniciar revelação.' });
+            }
+        });
+
+        // Player is ready to see their role
+        socket.on('local:player-ready', (sessionId, callback) => {
+            const state = localGameEngine.playerReady(sessionId);
+
+            if (state) {
+                // Get current player's role info
+                const currentPlayer = state.players[state.currentPlayerIndex];
+                const roleInfo = currentPlayer ? {
+                    playerId: currentPlayer.id,
+                    playerName: currentPlayer.name,
+                    isImpostor: currentPlayer.isImpostor,
+                    word: currentPlayer.isImpostor ? null : state.word,
+                    category: state.settings.hideCategory && currentPlayer.isImpostor
+                        ? null
+                        : state.category,
+                } : null;
+
+                callback({ success: true, session: state, roleInfo });
+            } else {
+                callback({ success: false, error: 'Erro.' });
+            }
+        });
+
+        // Player confirmed they saw their role
+        socket.on('local:confirm-reveal', (sessionId, callback) => {
+            const state = localGameEngine.confirmReveal(sessionId);
+
+            if (state) {
+                callback({ success: true, session: state });
+            } else {
+                callback({ success: false, error: 'Erro ao confirmar.' });
+            }
+        });
+
+        // Start voting phase
+        socket.on('local:start-voting', (sessionId, callback) => {
+            const state = localGameEngine.startVoting(sessionId);
+
+            if (state) {
+                callback({ success: true, session: state });
+            } else {
+                callback({ success: false, error: 'Erro ao iniciar votação.' });
+            }
+        });
+
+        // Voter is ready to vote
+        socket.on('local:voter-ready', (sessionId, callback) => {
+            const state = localGameEngine.voterReady(sessionId);
+
+            if (state) {
+                const currentVoter = state.players[state.currentVoterIndex];
+                const votableTargets = state.players
+                    .filter(p => !p.isEliminated && p.id !== currentVoter?.id)
+                    .map(p => ({ id: p.id, name: p.name }));
+
+                callback({
+                    success: true,
+                    session: state,
+                    voterName: currentVoter?.name,
+                    targets: votableTargets,
+                });
+            } else {
+                callback({ success: false, error: 'Erro.' });
+            }
+        });
+
+        // Submit vote
+        socket.on('local:submit-vote', (sessionId, targetId, callback) => {
+            const state = localGameEngine.submitVote(sessionId, targetId);
+
+            if (state) {
+                callback({ success: true, session: state });
+            } else {
+                callback({ success: false, error: 'Erro ao votar.' });
+            }
+        });
+
+        // Continue to next round
+        socket.on('local:continue-game', (sessionId, callback) => {
+            const state = localGameEngine.continueGame(sessionId);
+
+            if (state) {
+                callback({ success: true, session: state });
+            } else {
+                callback({ success: false, error: 'Erro ao continuar.' });
+            }
+        });
+
+        // Play again with same players
+        socket.on('local:play-again', (sessionId, callback) => {
+            const state = localGameEngine.playAgain(sessionId);
+
+            if (state) {
+                callback({ success: true, session: state });
+            } else {
+                callback({ success: false, error: 'Erro ao reiniciar.' });
+            }
+        });
+
+        // Get session state (for reconnection)
+        socket.on('local:get-session', (sessionId, callback) => {
+            const state = localGameEngine.getSession(sessionId);
+
+            if (state) {
+                callback({ success: true, session: state });
+            } else {
+                callback({ success: false, error: 'Sessão não encontrada.' });
+            }
         });
 
         // ==========================================
