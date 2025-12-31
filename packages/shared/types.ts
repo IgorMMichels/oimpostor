@@ -179,6 +179,7 @@ export interface ClientToServerEvents {
     'local:voter-ready': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void;
     'local:submit-vote': (sessionId: string, targetId: string, callback: (response: LocalSessionResponse) => void) => void;
     'local:host-eliminate': (sessionId: string, targetId: string | null, callback: (response: LocalSessionResponse) => void) => void;
+    'local:next-turn': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void; // New: Next player hint
     'local:continue-game': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void;
     'local:play-again': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void;
     'local:get-session': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void;
@@ -198,6 +199,7 @@ export interface ServerToClientEvents {
     'game:hint-received': (hint: HintEntry) => void;     // NEW: Hint broadcast
     'game:turn-changed': (playerId: string) => void;     // NEW: Turn changed
     'error': (message: string) => void;
+    'local:session-updated': (session: LocalGameState) => void; // Sync local session state
 }
 
 export interface RoomResponse {
@@ -271,6 +273,7 @@ export interface LocalPlayer {
 export interface LocalSettings {
     impostorCount: number;
     discussionTime: number;
+    hintTime: number; // New setting
     hideCategory: boolean;
     manualVoting: boolean; // Custom: manual voting mode
     selectedCategories: string[];
@@ -281,6 +284,7 @@ export type LocalPhase =
     | 'category'
     | 'pass_device'
     | 'local_reveal'
+    | 'local_hint'    // New phase
     | 'discussion'
     | 'pass_vote'
     | 'local_vote'

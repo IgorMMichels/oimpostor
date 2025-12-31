@@ -19,6 +19,7 @@ export default function LocalGame() {
     const [session, setSession] = useState<LocalGameState | null>(null);
     const [roleInfo, setRoleInfo] = useState<LocalRoleInfo | null>(null);
     const [voterTargets, setVoterTargets] = useState<{ id: string; name: string }[]>([]);
+    const [availableCategories, setAvailableCategories] = useState<{ id: string; name: string; icon: string }[]>([]);
 
     // UI state
     const [nameInput, setNameInput] = useState('');
@@ -34,11 +35,45 @@ export default function LocalGame() {
         (socket as any).emit('local:create-session', (response: LocalSessionResponse) => {
             if (response.success && response.session) {
                 setSession(response.session);
+                if (response.categories) {
+                    setAvailableCategories(response.categories);
+                }
             } else {
                 setError(response.error || 'Erro ao criar sessão');
             }
         });
+
+        // Listen for session updates (sync)
+        const handleSessionUpdated = (updatedSession: LocalGameState) => {
+            setSession(updatedSession);
+        };
+
+        socket.on('local:session-updated', handleSessionUpdated);
+
+        return () => {
+            socket.off('local:session-updated', handleSessionUpdated);
+        };
     }, [socket, isConnected]);
+
+    // Timer logic
+    const [timeLeft, setTimeLeft] = useState<number | null>(null);
+
+    useEffect(() => {
+        if (!session?.timerEndsAt) {
+            setTimeLeft(null);
+            return;
+        }
+
+        const updateTimer = () => {
+            const diff = Math.ceil((session.timerEndsAt! - Date.now()) / 1000);
+            setTimeLeft(diff > 0 ? diff : 0);
+        };
+
+        updateTimer();
+        const interval = setInterval(updateTimer, 1000);
+        return () => clearInterval(interval);
+    }, [session?.timerEndsAt]);
+
 
     // Handle adding player
     const handleAddPlayer = useCallback((e: React.FormEvent) => {
@@ -146,6 +181,30 @@ export default function LocalGame() {
             if (response.success && response.session) {
                 setSession(response.session);
                 setRoleInfo(null);
+            }
+        });
+    }, [socket, session]);
+
+    // Next turn (Hint)
+    const handleNextTurn = useCallback(() => {
+        if (!socket || !session) return;
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (socket as any).emit('local:next-turn', session.sessionId, (response: LocalSessionResponse) => {
+            if (response.success && response.session) {
+                setSession(response.session);
+            }
+        });
+    }, [socket, session]);
+
+    // Host eliminate
+    const handleHostEliminate = useCallback((targetId: string | null) => {
+        if (!socket || !session) return;
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (socket as any).emit('local:host-eliminate', session.sessionId, targetId, (response: LocalSessionResponse) => {
+            if (response.success && response.session) {
+                setSession(response.session);
             }
         });
     }, [socket, session]);
@@ -407,43 +466,87 @@ export default function LocalGame() {
                                         animate={{ opacity: 1, height: 'auto' }}
                                         exit={{ opacity: 0, height: 0 }}
                                     >
-                                        <div className="setting-row">
-                                            <label>Impostores:</label>
-                                            <select
-                                                value={session.settings.impostorCount}
-                                                onChange={(e) => handleUpdateSettings({
-                                                    impostorCount: parseInt(e.target.value)
-                                                })}
-                                            >
-                                                <option value={1}>1</option>
-                                                <option value={2}>2</option>
-                                                <option value={3}>3</option>
-                                            </select>
+                                        <div className="setting-block">
+                                            <h3>Regras Gerais</h3>
+                                            <div className="setting-row">
+                                                <label>Impostores:</label>
+                                                <div className="stepper">
+                                                    <button onClick={() => handleUpdateSettings({ impostorCount: Math.max(1, session.settings.impostorCount - 1) })}>-</button>
+                                                    <span>{session.settings.impostorCount}</span>
+                                                    <button onClick={() => handleUpdateSettings({ impostorCount: Math.min(3, session.settings.impostorCount + 1) })}>+</button>
+                                                </div>
+                                            </div>
+
+                                            <div className="setting-row">
+                                                <label>Tempo de Discussão:</label>
+                                                <div className="stepper">
+                                                    <button onClick={() => handleUpdateSettings({ discussionTime: Math.max(0, session.settings.discussionTime - 30) })}>-</button>
+                                                    <span>{session.settings.discussionTime}s</span>
+                                                    <button onClick={() => handleUpdateSettings({ discussionTime: session.settings.discussionTime + 30 })}>+</button>
+                                                </div>
+                                            </div>
+
+                                            <div className="setting-row">
+                                                <label>Tempo de Dica (por pessoa):</label>
+                                                <div className="stepper">
+                                                    <button onClick={() => handleUpdateSettings({ hintTime: Math.max(0, session.settings.hintTime - 5) })}>-</button>
+                                                    <span>{session.settings.hintTime}s</span>
+                                                    <button onClick={() => handleUpdateSettings({ hintTime: session.settings.hintTime + 5 })}>+</button>
+                                                </div>
+                                            </div>
+
+                                            <div className="setting-row switch-row">
+                                                <label>Votação Presencial</label>
+                                                <button
+                                                    className={`switch-btn ${session.settings.manualVoting ? 'active' : ''}`}
+                                                    onClick={() => handleUpdateSettings({ manualVoting: !session.settings.manualVoting })}
+                                                >
+                                                    {session.settings.manualVoting ? 'Sim' : 'Não'}
+                                                </button>
+                                            </div>
+
+                                            <div className="setting-row switch-row">
+                                                <label>Esconder Categoria</label>
+                                                <button
+                                                    className={`switch-btn ${session.settings.hideCategory ? 'active' : ''}`}
+                                                    onClick={() => handleUpdateSettings({ hideCategory: !session.settings.hideCategory })}
+                                                >
+                                                    {session.settings.hideCategory ? 'Sim' : 'Não'}
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div className="setting-row">
-                                            <label>Tempo de discussão:</label>
-                                            <select
-                                                value={session.settings.discussionTime}
-                                                onChange={(e) => handleUpdateSettings({
-                                                    discussionTime: parseInt(e.target.value)
-                                                })}
-                                            >
-                                                <option value={0}>Desativado</option>
-                                                <option value={60}>1 minuto</option>
-                                                <option value={120}>2 minutos</option>
-                                                <option value={180}>3 minutos</option>
-                                                <option value={300}>5 minutos</option>
-                                            </select>
-                                        </div>
-                                        <div className="setting-row">
-                                            <label>Esconder categoria do impostor:</label>
-                                            <input
-                                                type="checkbox"
-                                                checked={session.settings.hideCategory}
-                                                onChange={(e) => handleUpdateSettings({
-                                                    hideCategory: e.target.checked
-                                                })}
-                                            />
+
+                                        <div className="setting-block">
+                                            <h3>Categorias</h3>
+                                            <div className="categories-grid">
+                                                <button
+                                                    className={`category-chip ${session.settings.selectedCategories.length === 0 ? 'active' : ''}`}
+                                                    onClick={() => handleUpdateSettings({ selectedCategories: [] })}
+                                                >
+                                                    Todas
+                                                </button>
+                                                {availableCategories.map(cat => (
+                                                    <button
+                                                        key={cat.id}
+                                                        className={`category-chip ${session.settings.selectedCategories.includes(cat.id) ? 'active' : ''}`}
+                                                        onClick={() => {
+                                                            let newCats = [...session.settings.selectedCategories];
+                                                            if (newCats.length === 0) {
+                                                                newCats = [cat.id];
+                                                            } else {
+                                                                if (newCats.includes(cat.id)) {
+                                                                    newCats = newCats.filter(c => c !== cat.id);
+                                                                } else {
+                                                                    newCats.push(cat.id);
+                                                                }
+                                                            }
+                                                            handleUpdateSettings({ selectedCategories: newCats });
+                                                        }}
+                                                    >
+                                                        {cat.icon} {cat.name}
+                                                    </button>
+                                                ))}
+                                            </div>
                                         </div>
                                     </motion.div>
                                 )}
@@ -623,6 +726,51 @@ export default function LocalGame() {
                         </motion.div>
                     )}
 
+                    {/* PHASE: LOCAL_HINT */}
+                    {session.phase === 'local_hint' && (
+                        <motion.div
+                            key="local-hint"
+                            className="phase-hint"
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0 }}
+                        >
+                            <div className="hint-header">
+                                <span className="hint-icon">💡</span>
+                                <h2>Hora da Dica!</h2>
+                            </div>
+
+                            <div className="current-player-display">
+                                <p>Vez de:</p>
+                                <motion.h1
+                                    initial={{ scale: 0.8 }}
+                                    animate={{ scale: 1 }}
+                                    key={session.currentPlayerIndex}
+                                >
+                                    {session.players[session.currentPlayerIndex]?.name}
+                                </motion.h1>
+                            </div>
+
+                            {/* Timer */}
+                            {session.timerEndsAt && timeLeft !== null && (
+                                <div className={`hint-timer ${timeLeft <= 5 ? 'urgent' : ''}`}>
+                                    {timeLeft}s
+                                </div>
+                            )}
+
+                            <motion.button
+                                className="next-turn-btn"
+                                onClick={handleNextTurn}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                {session.currentPlayerIndex >= session.players.length - 1
+                                    ? '🏁 Iniciar Discussão'
+                                    : '➡️ Próximo Jogador'}
+                            </motion.button>
+                        </motion.div>
+                    )}
+
                     {/* PHASE: DISCUSSION */}
                     {session.phase === 'discussion' && (
                         <motion.div
@@ -764,6 +912,53 @@ export default function LocalGame() {
                         </motion.div>
                     )}
 
+                    {/* PHASE: HOST_DECISION */}
+                    {session.phase === 'host_decision' && (
+                        <motion.div
+                            key="host-decision"
+                            className="phase-host-decision"
+                            initial={{ opacity: 0, x: 100 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -100 }}
+                        >
+                            <div className="voting-header">
+                                <h2>Votação Presencial</h2>
+                                <p className="voting-hint">
+                                    O host deve selecionar quem foi o eliminado pela votação do grupo.
+                                </p>
+                            </div>
+
+                            <div className="host-voting-grid">
+                                {session.players.filter(p => !p.isEliminated).map((player, index) => (
+                                    <motion.button
+                                        key={player.id}
+                                        className="host-vote-card"
+                                        onClick={() => handleHostEliminate(player.id)}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: index * 0.1 }}
+                                        whileHover={{ scale: 1.05, y: -5 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        <span className="vote-icon">👤</span>
+                                        <span className="vote-name">{player.name}</span>
+                                        <span className="eliminate-label">Eliminar</span>
+                                    </motion.button>
+                                ))}
+                            </div>
+
+                            <motion.button
+                                className="skip-vote-btn"
+                                onClick={() => handleHostEliminate(null)}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.5 }}
+                            >
+                                🚫 Ninguém foi eliminado (Empate/Pulo)
+                            </motion.button>
+                        </motion.div>
+                    )}
+
                     {/* PHASE: ROUND_RESULT */}
                     {session.phase === 'round_result' && (
                         <motion.div
@@ -891,7 +1086,7 @@ export default function LocalGame() {
                         </motion.div>
                     )}
                 </AnimatePresence>
-            </main>
-        </div>
+            </main >
+        </div >
     );
 }

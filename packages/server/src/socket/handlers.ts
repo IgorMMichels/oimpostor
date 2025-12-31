@@ -515,8 +515,33 @@ export function setupSocketHandlers(
 
             if (state) {
                 callback({ success: true, session: state });
+                io.emit('local:session-updated', state);
             } else {
                 callback({ success: false, error: 'Erro ao votar.' });
+            }
+        });
+
+        // Host manually eliminates player
+        socket.on('local:host-eliminate', (sessionId, targetId, callback) => {
+            const state = localGameEngine.hostEliminate(sessionId, targetId);
+
+            if (state) {
+                callback({ success: true, session: state });
+                io.emit('local:session-updated', state);
+            } else {
+                callback({ success: false, error: 'Erro ao eliminar jogador.' });
+            }
+        });
+
+        // Next turn (Hint Phase)
+        socket.on('local:next-turn', (sessionId, callback) => {
+            const state = localGameEngine.nextTurn(sessionId);
+
+            if (state) {
+                callback({ success: true, session: state });
+                io.emit('local:session-updated', state);
+            } else {
+                callback({ success: false, error: 'Erro ao avançar turno.' });
             }
         });
 

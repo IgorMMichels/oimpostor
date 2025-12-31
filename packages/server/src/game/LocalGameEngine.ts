@@ -40,6 +40,7 @@ try {
 const defaultLocalSettings: LocalSettings = {
     impostorCount: 1,
     discussionTime: 180, // 3 minutes
+    hintTime: 15, // 15 seconds per person
     hideCategory: false,
     manualVoting: false, // Default: pass & play voting
     selectedCategories: [], // All categories
@@ -217,10 +218,15 @@ export class LocalGameEngine {
 
         // Check if all players revealed
         if (state.currentPlayerIndex >= state.players.length) {
-            // Start discussion
-            state.phase = 'discussion';
-            if (state.settings.discussionTime > 0) {
-                state.timerEndsAt = Date.now() + state.settings.discussionTime * 1000;
+            // Start Hint Phase
+            state.phase = 'local_hint';
+            state.currentPlayerIndex = 0; // Reset for hint order (use reveal order, or shuffle again? Reveal order is random so it's fine)
+
+            // Set first hint timer
+            if (state.settings.hintTime > 0) {
+                state.timerEndsAt = Date.now() + state.settings.hintTime * 1000;
+            } else {
+                state.timerEndsAt = null;
             }
         } else {
             state.phase = 'pass_device';
@@ -229,8 +235,36 @@ export class LocalGameEngine {
         return state;
     }
 
+    // Move to next player in hint phase
+    nextTurn(sessionId: string): LocalGameState | null {
+        const state = this.sessions.get(sessionId);
+        if (!state || state.phase !== 'local_hint') return null;
+
+        state.currentPlayerIndex++;
+
+        if (state.currentPlayerIndex >= state.players.length) {
+            // Start Discussion
+            state.phase = 'discussion';
+            if (state.settings.discussionTime > 0) {
+                state.timerEndsAt = Date.now() + state.settings.discussionTime * 1000;
+            } else {
+                state.timerEndsAt = null;
+            }
+        } else {
+            // Next hint turn
+            if (state.settings.hintTime > 0) {
+                state.timerEndsAt = Date.now() + state.settings.hintTime * 1000;
+            } else {
+                state.timerEndsAt = null;
+            }
+        }
+
+        return state;
+    }
+
     // Start voting phase
     startVoting(sessionId: string): LocalGameState | null {
+
         const state = this.sessions.get(sessionId);
         if (!state || state.phase !== 'discussion') return null;
 
