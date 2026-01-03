@@ -3,20 +3,43 @@
 // Handle direct room links - /sala/:code
 // ============================================
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useGameStore } from '../store/gameStore';
 import GridBackground from '../components/GridBackground';
 import './Home.css';
 
+type RoomStatus = 'loading' | 'exists' | 'not_found' | 'full';
+
 export default function JoinRoom() {
     const { code } = useParams<{ code: string }>();
     const navigate = useNavigate();
-    const { joinRoom, isConnected, error, clearError, playerName } = useGameStore();
+    const { joinRoom, isConnected, error, clearError, playerName, checkRoomExists } = useGameStore();
 
     const [name, setName] = useState(playerName);
     const [loading, setLoading] = useState(false);
+    const [roomStatus, setRoomStatus] = useState<RoomStatus>('loading');
+
+    // Check if room exists when component mounts
+    useEffect(() => {
+        if (!code || !isConnected) return;
+
+        const checkRoom = async () => {
+            setRoomStatus('loading');
+            const result = await checkRoomExists(code);
+
+            if (!result.exists) {
+                setRoomStatus('not_found');
+            } else if (result.isFull) {
+                setRoomStatus('full');
+            } else {
+                setRoomStatus('exists');
+            }
+        };
+
+        checkRoom();
+    }, [code, isConnected, checkRoomExists]);
 
     const handleJoin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -27,6 +50,92 @@ export default function JoinRoom() {
         setLoading(false);
     };
 
+    // Loading state
+    if (roomStatus === 'loading') {
+        return (
+            <div className="home-page">
+                <GridBackground gridSize={60} />
+                <div className="home-content">
+                    <motion.div
+                        className="form-card"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        style={{ textAlign: 'center' }}
+                    >
+                        <span className="form-icon" style={{ fontSize: '3rem' }}>⏳</span>
+                        <h2>Verificando sala...</h2>
+                        <p style={{ color: 'var(--muted)' }}>Aguarde um momento</p>
+                    </motion.div>
+                </div>
+            </div>
+        );
+    }
+
+    // Room not found state
+    if (roomStatus === 'not_found') {
+        return (
+            <div className="home-page">
+                <GridBackground gridSize={60} />
+                <div className="home-content">
+                    <motion.div
+                        className="form-card"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                    >
+                        <span className="form-icon" style={{ fontSize: '3rem' }}>❌</span>
+                        <h2>Sala não encontrada</h2>
+                        <p style={{ color: 'var(--muted)', marginBottom: 'var(--space-lg)' }}>
+                            O código <strong>{code?.toUpperCase()}</strong> não existe ou a sala foi fechada.
+                        </p>
+                        <button
+                            type="button"
+                            className="submit-button"
+                            onClick={() => navigate('/')}
+                        >
+                            🏠 Voltar ao Início
+                        </button>
+                    </motion.div>
+                </div>
+                <footer className="home-footer">
+                    <p>O Impostor • Jogo de dedução social</p>
+                </footer>
+            </div>
+        );
+    }
+
+    // Room full state
+    if (roomStatus === 'full') {
+        return (
+            <div className="home-page">
+                <GridBackground gridSize={60} />
+                <div className="home-content">
+                    <motion.div
+                        className="form-card"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                    >
+                        <span className="form-icon" style={{ fontSize: '3rem' }}>🚫</span>
+                        <h2>Sala lotada</h2>
+                        <p style={{ color: 'var(--muted)', marginBottom: 'var(--space-lg)' }}>
+                            A sala <strong>{code?.toUpperCase()}</strong> está cheia.
+                        </p>
+                        <button
+                            type="button"
+                            className="submit-button"
+                            onClick={() => navigate('/')}
+                        >
+                            🏠 Voltar ao Início
+                        </button>
+                    </motion.div>
+                </div>
+                <footer className="home-footer">
+                    <p>O Impostor • Jogo de dedução social</p>
+                </footer>
+            </div>
+        );
+    }
+
+    // Room exists - show join form
     return (
         <div className="home-page">
             <GridBackground gridSize={60} />
@@ -111,3 +220,4 @@ export default function JoinRoom() {
         </div>
     );
 }
+

@@ -21,6 +21,12 @@ interface RoomResponse {
     reconnected?: boolean;
 }
 
+interface RoomCheckResponse {
+    exists: boolean;
+    playerCount?: number;
+    maxPlayers?: number;
+}
+
 const SOCKET_URL = import.meta.env.VITE_API_URL ||
     (typeof window !== 'undefined' && window.location.protocol === 'https:'
         ? window.location.origin
@@ -72,6 +78,7 @@ interface GameStore {
     submitHint: (hint: string) => void;
     voteDecision: (decision: 'vote' | 'continue') => void;
     clearError: () => void;
+    checkRoomExists: (code: string) => Promise<{ exists: boolean; isFull?: boolean }>;
 }
 
 export const useGameStore = create<GameStore>((set, get) => ({
@@ -433,6 +440,24 @@ export const useGameStore = create<GameStore>((set, get) => ({
     // Clear error
     clearError: () => {
         set({ error: null });
+    },
+
+    // Check if room exists
+    checkRoomExists: (code) => {
+        return new Promise((resolve) => {
+            const { socket } = get();
+            if (!socket) {
+                resolve({ exists: false });
+                return;
+            }
+
+            socket.emit('room:check-exists', code.toUpperCase(), (response: RoomCheckResponse) => {
+                const isFull = response.playerCount !== undefined &&
+                    response.maxPlayers !== undefined &&
+                    response.playerCount >= response.maxPlayers;
+                resolve({ exists: response.exists, isFull });
+            });
+        });
     },
 }));
 

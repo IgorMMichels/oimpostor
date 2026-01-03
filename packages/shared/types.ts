@@ -156,6 +156,7 @@ export interface ClientToServerEvents {
     'room:create': (playerName: string, sessionId: string | null, callback: (response: RoomResponse) => void) => void;
     'room:join': (code: string, playerName: string, sessionId: string | null, callback: (response: RoomResponse) => void) => void;
     'room:leave': () => void;
+    'room:check-exists': (code: string, callback: (response: RoomCheckResponse) => void) => void;
     'room:update-settings': (settings: Partial<RoomSettings>) => void;
     'game:start': () => void;
     'game:chat': (message: string) => void;
@@ -208,6 +209,12 @@ export interface RoomResponse {
     playerId?: string;
     error?: string;
     reconnected?: boolean; // True if this was a session reconnection
+}
+
+export interface RoomCheckResponse {
+    exists: boolean;
+    playerCount?: number;
+    maxPlayers?: number;
 }
 
 export interface PhaseData {

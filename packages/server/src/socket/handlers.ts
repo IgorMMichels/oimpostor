@@ -158,6 +158,16 @@ export function setupSocketHandlers(
             }
         });
 
+        // Check if room exists (without joining)
+        socket.on('room:check-exists', (code, callback) => {
+            const room = roomManager.getRoomByCode(code);
+            callback({
+                exists: !!room,
+                playerCount: room?.players.length,
+                maxPlayers: room?.settings.maxPlayers,
+            });
+        });
+
         // Leave room
         socket.on('room:leave', () => {
             handlePlayerLeave(socket, io, roomManager);
