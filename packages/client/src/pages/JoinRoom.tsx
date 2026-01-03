@@ -81,6 +81,7 @@ export default function JoinRoom() {
                         className="form-card"
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
+                        style={{ textAlign: 'center' }}
                     >
                         <span className="form-icon" style={{ fontSize: '3rem' }}>❌</span>
                         <h2>Sala não encontrada</h2>
@@ -113,6 +114,7 @@ export default function JoinRoom() {
                         className="form-card"
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
+                        style={{ textAlign: 'center' }}
                     >
                         <span className="form-icon" style={{ fontSize: '3rem' }}>🚫</span>
                         <h2>Sala lotada</h2>
