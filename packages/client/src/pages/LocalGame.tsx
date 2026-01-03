@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGameStore } from '../store/gameStore';
 import GridBackground from '../components/GridBackground';
-import type { LocalGameState, LocalRoleInfo, LocalSettings, LocalSessionResponse } from '@advinha/shared/types';
+import type { LocalGameState, LocalRoleInfo, LocalSettings, LocalSessionResponse, LocalPlayer } from '@advinha/shared';
 import './LocalGame.css';
 
 export default function LocalGame() {
@@ -295,16 +295,16 @@ export default function LocalGame() {
     // Helper: get eliminated player
     const getEliminatedPlayer = () => {
         if (!session || !session.eliminatedThisRound) return null;
-        return session.players.find(p => p.id === session.eliminatedThisRound);
+        return session.players.find((p: LocalPlayer) => p.id === session.eliminatedThisRound);
     };
 
     // Helper: get alive players count
     const getAlivePlayers = () => {
         if (!session) return { impostors: 0, innocents: 0 };
-        const alive = session.players.filter(p => !p.isEliminated);
+        const alive = session.players.filter((p: LocalPlayer) => !p.isEliminated);
         return {
-            impostors: alive.filter(p => p.isImpostor).length,
-            innocents: alive.filter(p => !p.isImpostor).length,
+            impostors: alive.filter((p: LocalPlayer) => p.isImpostor).length,
+            innocents: alive.filter((p: LocalPlayer) => !p.isImpostor).length,
         };
     };
 
@@ -409,7 +409,7 @@ export default function LocalGame() {
                             {/* Players List */}
                             <div className="players-list">
                                 <AnimatePresence>
-                                    {session.players.map((player, index) => (
+                                    {session.players.map((player: LocalPlayer, index: number) => (
                                         <motion.div
                                             key={player.id}
                                             className="player-chip"
@@ -833,8 +833,8 @@ export default function LocalGame() {
 
                             <div className="players-reminder">
                                 {session.players
-                                    .filter(p => !p.isEliminated)
-                                    .map(p => (
+                                    .filter((p: LocalPlayer) => !p.isEliminated)
+                                    .map((p: LocalPlayer) => (
                                         <span key={p.id} className="player-tag">{p.name}</span>
                                     ))
                                 }
@@ -957,7 +957,7 @@ export default function LocalGame() {
                             </div>
 
                             <div className="host-voting-grid">
-                                {session.players.filter(p => !p.isEliminated).map((player, index) => (
+                                {session.players.filter((p: LocalPlayer) => !p.isEliminated).map((player: LocalPlayer, index: number) => (
                                     <motion.button
                                         key={player.id}
                                         className="host-vote-card"
@@ -1085,8 +1085,8 @@ export default function LocalGame() {
                                 <p>
                                     <strong>Impostor(es):</strong>{' '}
                                     {session.players
-                                        .filter(p => p.isImpostor)
-                                        .map(p => p.name)
+                                        .filter((p: LocalPlayer) => p.isImpostor)
+                                        .map((p: LocalPlayer) => p.name)
                                         .join(', ')}
                                 </p>
                                 {session.category && session.word && (

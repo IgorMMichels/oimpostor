@@ -21,9 +21,10 @@ interface RoomResponse {
     reconnected?: boolean;
 }
 
-const SOCKET_URL = typeof window !== 'undefined' && window.location.protocol === 'https:'
-    ? window.location.origin
-    : 'http://localhost:3001';
+const SOCKET_URL = import.meta.env.VITE_API_URL ||
+    (typeof window !== 'undefined' && window.location.protocol === 'https:'
+        ? window.location.origin
+        : 'http://localhost:3001');
 
 // Generate or retrieve persistent session ID
 function getSessionId(): string {
