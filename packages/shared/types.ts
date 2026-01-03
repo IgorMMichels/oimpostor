@@ -153,8 +153,8 @@ export interface Cosmetic {
 
 // Client -> Server
 export interface ClientToServerEvents {
-    'room:create': (playerName: string, callback: (response: RoomResponse) => void) => void;
-    'room:join': (code: string, playerName: string, callback: (response: RoomResponse) => void) => void;
+    'room:create': (playerName: string, sessionId: string | null, callback: (response: RoomResponse) => void) => void;
+    'room:join': (code: string, playerName: string, sessionId: string | null, callback: (response: RoomResponse) => void) => void;
     'room:leave': () => void;
     'room:update-settings': (settings: Partial<RoomSettings>) => void;
     'game:start': () => void;
@@ -207,6 +207,7 @@ export interface RoomResponse {
     room?: Room;
     playerId?: string;
     error?: string;
+    reconnected?: boolean; // True if this was a session reconnection
 }
 
 export interface PhaseData {
@@ -275,6 +276,7 @@ export interface LocalSettings {
     discussionTime: number;
     hintTime: number; // New setting
     hideCategory: boolean;
+    randomMode: boolean; // Random word from all categories
     manualVoting: boolean; // Custom: manual voting mode
     selectedCategories: string[];
 }

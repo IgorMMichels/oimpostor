@@ -122,7 +122,7 @@ export default function Home() {
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: 0.3 }}
                             >
-                                <span className="tagline-main">Confie em ninguém.</span>
+                                <span className="tagline-main">Não confie em ninguém.</span>
                                 <br />
                                 <span className="tagline-accent">Um de vocês está mentindo.</span>
                             </motion.p>

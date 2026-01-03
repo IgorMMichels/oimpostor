@@ -514,39 +514,56 @@ export default function LocalGame() {
                                                     {session.settings.hideCategory ? 'Sim' : 'Não'}
                                                 </button>
                                             </div>
+
+                                            <div className="setting-row switch-row">
+                                                <label>Modo Aleatório 🎲</label>
+                                                <button
+                                                    className={`switch-btn ${session.settings.randomMode ? 'active' : ''}`}
+                                                    onClick={() => handleUpdateSettings({ randomMode: !session.settings.randomMode })}
+                                                >
+                                                    {session.settings.randomMode ? 'Sim' : 'Não'}
+                                                </button>
+                                            </div>
+                                            {session.settings.randomMode && (
+                                                <p className="setting-hint">Palavras de todas as categorias, sem revelar qual é.</p>
+                                            )}
                                         </div>
 
                                         <div className="setting-block">
                                             <h3>Categorias</h3>
-                                            <div className="categories-grid">
-                                                <button
-                                                    className={`category-chip ${session.settings.selectedCategories.length === 0 ? 'active' : ''}`}
-                                                    onClick={() => handleUpdateSettings({ selectedCategories: [] })}
-                                                >
-                                                    Todas
-                                                </button>
-                                                {availableCategories.map(cat => (
+                                            {session.settings.randomMode ? (
+                                                <p className="categories-disabled">Categorias desativadas no modo aleatório</p>
+                                            ) : (
+                                                <div className="categories-grid">
                                                     <button
-                                                        key={cat.id}
-                                                        className={`category-chip ${session.settings.selectedCategories.includes(cat.id) ? 'active' : ''}`}
-                                                        onClick={() => {
-                                                            let newCats = [...session.settings.selectedCategories];
-                                                            if (newCats.length === 0) {
-                                                                newCats = [cat.id];
-                                                            } else {
-                                                                if (newCats.includes(cat.id)) {
-                                                                    newCats = newCats.filter(c => c !== cat.id);
-                                                                } else {
-                                                                    newCats.push(cat.id);
-                                                                }
-                                                            }
-                                                            handleUpdateSettings({ selectedCategories: newCats });
-                                                        }}
+                                                        className={`category-chip ${session.settings.selectedCategories.length === 0 ? 'active' : ''}`}
+                                                        onClick={() => handleUpdateSettings({ selectedCategories: [] })}
                                                     >
-                                                        {cat.icon} {cat.name}
+                                                        Todas
                                                     </button>
-                                                ))}
-                                            </div>
+                                                    {availableCategories.map(cat => (
+                                                        <button
+                                                            key={cat.id}
+                                                            className={`category-chip ${session.settings.selectedCategories.includes(cat.id) ? 'active' : ''}`}
+                                                            onClick={() => {
+                                                                let newCats = [...session.settings.selectedCategories];
+                                                                if (newCats.length === 0) {
+                                                                    newCats = [cat.id];
+                                                                } else {
+                                                                    if (newCats.includes(cat.id)) {
+                                                                        newCats = newCats.filter(c => c !== cat.id);
+                                                                    } else {
+                                                                        newCats.push(cat.id);
+                                                                    }
+                                                                }
+                                                                handleUpdateSettings({ selectedCategories: newCats });
+                                                            }}
+                                                        >
+                                                            {cat.icon} {cat.name}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            )}
                                         </div>
                                     </motion.div>
                                 )}
@@ -567,7 +584,7 @@ export default function LocalGame() {
                     )}
 
                     {/* PHASE: CATEGORY */}
-                    {session.phase === 'category' && session.category && (
+                    {session.phase === 'category' && (
                         <motion.div
                             key="category"
                             className="phase-category"
@@ -581,9 +598,19 @@ export default function LocalGame() {
                                 animate={{ rotateY: 0 }}
                                 transition={{ type: 'spring', damping: 15 }}
                             >
-                                <span className="category-icon">{session.category.icon}</span>
-                                <h2>Categoria</h2>
-                                <p className="category-name">{session.category.name}</p>
+                                {session.settings.hideCategory ? (
+                                    <>
+                                        <span className="category-icon">🎯</span>
+                                        <h2>Jogo Preparado!</h2>
+                                        <p className="category-name">Categoria Oculta</p>
+                                    </>
+                                ) : (
+                                    <>
+                                        <span className="category-icon">{session.category?.icon}</span>
+                                        <h2>Categoria</h2>
+                                        <p className="category-name">{session.category?.name}</p>
+                                    </>
+                                )}
                             </motion.div>
 
                             <motion.p
@@ -592,8 +619,9 @@ export default function LocalGame() {
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: 0.5 }}
                             >
-                                Todos viram a categoria!<br />
-                                Agora cada um verá seu papel em segredo.
+                                {session.settings.hideCategory
+                                    ? 'Cada um verá seu papel em segredo.'
+                                    : 'Todos viram a categoria! Agora cada um verá seu papel em segredo.'}
                             </motion.p>
 
                             <motion.button
@@ -667,7 +695,7 @@ export default function LocalGame() {
                         >
                             <h2 className="revealing-name">{roleInfo.playerName}</h2>
 
-                            {roleInfo.category && (
+                            {roleInfo.category && !session.settings.hideCategory && (
                                 <div className="category-reminder">
                                     <span>{roleInfo.category.icon}</span>
                                     <span>{roleInfo.category.name}</span>
@@ -791,7 +819,7 @@ export default function LocalGame() {
 
                             <h2>Hora de Discutir!</h2>
 
-                            {session.category && (
+                            {session.category && !session.settings.hideCategory && (
                                 <div className="category-reminder large">
                                     <span>{session.category.icon}</span>
                                     <span>{session.category.name}</span>

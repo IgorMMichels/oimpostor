@@ -42,6 +42,7 @@ const defaultLocalSettings: LocalSettings = {
     discussionTime: 180, // 3 minutes
     hintTime: 15, // 15 seconds per person
     hideCategory: false,
+    randomMode: false, // Random word from all categories
     manualVoting: false, // Default: pass & play voting
     selectedCategories: [], // All categories
 };
@@ -150,17 +151,37 @@ export class LocalGameEngine {
             p.hasVoted = false;
         });
 
-        // Select category
-        const availableCategories = state.settings.selectedCategories.length > 0
-            ? categoriesData.categories.filter(c => state.settings.selectedCategories.includes(c.id))
-            : categoriesData.categories;
+        // Select category and word
+        let category: Category;
+        let word: string;
 
-        if (availableCategories.length === 0) {
-            return null;
+        if (state.settings.randomMode) {
+            // Random mode: pick a random word from ALL categories
+            const allWords: { word: string; category: Category }[] = [];
+            for (const cat of categoriesData.categories) {
+                for (const w of cat.words) {
+                    allWords.push({ word: w, category: cat });
+                }
+            }
+            if (allWords.length === 0) return null;
+
+            const randomPick = allWords[Math.floor(Math.random() * allWords.length)];
+            word = randomPick.word;
+            // Use a generic "Random" category
+            category = { id: 'aleatorio', name: 'Aleatório', icon: '🎲', words: [] };
+        } else {
+            // Normal mode: pick from selected categories
+            const availableCategories = state.settings.selectedCategories.length > 0
+                ? categoriesData.categories.filter(c => state.settings.selectedCategories.includes(c.id))
+                : categoriesData.categories;
+
+            if (availableCategories.length === 0) {
+                return null;
+            }
+
+            category = availableCategories[Math.floor(Math.random() * availableCategories.length)];
+            word = category.words[Math.floor(Math.random() * category.words.length)];
         }
-
-        const category = availableCategories[Math.floor(Math.random() * availableCategories.length)];
-        const word = category.words[Math.floor(Math.random() * category.words.length)];
 
         state.category = { id: category.id, name: category.name, icon: category.icon };
         state.word = word;

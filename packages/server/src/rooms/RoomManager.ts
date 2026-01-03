@@ -31,6 +31,7 @@ const defaultCosmetics: PlayerCosmetics = {
 export class RoomManager {
     private rooms: Map<string, Room> = new Map();
     private playerRooms: Map<string, string> = new Map(); // playerId -> roomCode
+    private sessionPlayers: Map<string, { playerId: string; roomCode: string }> = new Map(); // sessionId -> player info
 
     // Generate unique 6-character room code
     private generateRoomCode(): string {
@@ -72,6 +73,60 @@ export class RoomManager {
 
         console.log(`[Room] Created room ${code} by ${hostName}`);
         return room;
+    }
+
+    // Register session to player mapping
+    registerSession(sessionId: string, playerId: string, roomCode: string): void {
+        this.sessionPlayers.set(sessionId, { playerId, roomCode });
+        console.log(`[Room] Session ${sessionId.slice(0, 8)}... registered for player in room ${roomCode}`);
+    }
+
+    // Get existing session info
+    getSessionInfo(sessionId: string): { playerId: string; roomCode: string } | null {
+        return this.sessionPlayers.get(sessionId) || null;
+    }
+
+    // Update session with new socket ID (for reconnection)
+    updateSessionPlayer(sessionId: string, newPlayerId: string): Room | null {
+        const sessionInfo = this.sessionPlayers.get(sessionId);
+        if (!sessionInfo) return null;
+
+        const room = this.rooms.get(sessionInfo.roomCode);
+        if (!room) {
+            this.sessionPlayers.delete(sessionId);
+            return null;
+        }
+
+        // Find the old player and update their ID
+        const oldPlayerId = sessionInfo.playerId;
+        const player = room.players.find(p => p.id === oldPlayerId);
+        if (player) {
+            // Update player ID
+            player.id = newPlayerId;
+            player.isConnected = true;
+
+            // Update mappings
+            this.playerRooms.delete(oldPlayerId);
+            this.playerRooms.set(newPlayerId, sessionInfo.roomCode);
+            sessionInfo.playerId = newPlayerId;
+
+            // Update host ID if this was the host
+            if (room.hostId === oldPlayerId) {
+                room.hostId = newPlayerId;
+            }
+
+            console.log(`[Room] Session ${sessionId.slice(0, 8)}... reconnected with new socket`);
+            return room;
+        }
+
+        // Player not found in room, clean up session
+        this.sessionPlayers.delete(sessionId);
+        return null;
+    }
+
+    // Clear session on leave
+    clearSession(sessionId: string): void {
+        this.sessionPlayers.delete(sessionId);
     }
 
     // Join an existing room
@@ -209,9 +264,9 @@ export class RoomManager {
         return count;
     }
 
-    // Clean up stale rooms (no activity for 30 minutes)
+    // Clean up stale rooms (no activity for 1 minute)
     cleanupStaleRooms(): number {
-        const staleThreshold = 30 * 60 * 1000; // 30 minutes
+        const staleThreshold = 1 * 60 * 1000; // 1 minute
         const now = Date.now();
         let cleaned = 0;
 

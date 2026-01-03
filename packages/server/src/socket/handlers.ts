@@ -32,10 +32,10 @@ export function setupSocketHandlers(
     io: Server<ClientToServerEvents, ServerToClientEvents>,
     roomManager: RoomManager
 ): void {
-    // Cleanup stale rooms every 5 minutes
+    // Cleanup stale rooms every 1 minute
     setInterval(() => {
         roomManager.cleanupStaleRooms();
-    }, 5 * 60 * 1000);
+    }, 1 * 60 * 1000);
 
     io.on('connection', (socket: Socket<ClientToServerEvents, ServerToClientEvents>) => {
         console.log(`[Socket] Client connected: ${socket.id}`);
@@ -45,10 +45,36 @@ export function setupSocketHandlers(
         // ==========================================
 
         // Create new room
-        socket.on('room:create', (playerName, callback) => {
+        socket.on('room:create', (playerName, sessionId, callback) => {
             try {
+                // Check if session already has a room
+                if (sessionId) {
+                    const existingSession = roomManager.getSessionInfo(sessionId);
+                    if (existingSession) {
+                        // Try to reconnect
+                        const room = roomManager.updateSessionPlayer(sessionId, socket.id);
+                        if (room) {
+                            socket.join(room.code);
+                            callback({
+                                success: true,
+                                room,
+                                playerId: socket.id,
+                                reconnected: true,
+                            });
+                            io.to(room.code).emit('room:updated', room);
+                            console.log(`[Socket] Reconnected to room ${room.code} via session`);
+                            return;
+                        }
+                    }
+                }
+
                 const room = roomManager.createRoom(socket.id, playerName);
                 socket.join(room.code);
+
+                // Register session if provided
+                if (sessionId) {
+                    roomManager.registerSession(sessionId, socket.id, room.code);
+                }
 
                 callback({
                     success: true,
@@ -67,8 +93,29 @@ export function setupSocketHandlers(
         });
 
         // Join existing room
-        socket.on('room:join', (code, playerName, callback) => {
+        socket.on('room:join', (code, playerName, sessionId, callback) => {
             try {
+                // Check if session already has a room
+                if (sessionId) {
+                    const existingSession = roomManager.getSessionInfo(sessionId);
+                    if (existingSession && existingSession.roomCode === code.toUpperCase()) {
+                        // Reconnect to same room
+                        const room = roomManager.updateSessionPlayer(sessionId, socket.id);
+                        if (room) {
+                            socket.join(room.code);
+                            callback({
+                                success: true,
+                                room,
+                                playerId: socket.id,
+                                reconnected: true,
+                            });
+                            io.to(room.code).emit('room:updated', room);
+                            console.log(`[Socket] Reconnected to room ${room.code} via session`);
+                            return;
+                        }
+                    }
+                }
+
                 const room = roomManager.joinRoom(code, socket.id, playerName);
 
                 if (!room) {
@@ -80,6 +127,11 @@ export function setupSocketHandlers(
                 }
 
                 socket.join(room.code);
+
+                // Register session if provided
+                if (sessionId) {
+                    roomManager.registerSession(sessionId, socket.id, room.code);
+                }
 
                 // Notify other players
                 const newPlayer = room.players.find(p => p.id === socket.id);

@@ -111,7 +111,7 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.4 }}
                             >
-                                Confie em ninguém.
+                                Não confie em ninguém.
                             </motion.p>
                         </motion.div>
                     )}

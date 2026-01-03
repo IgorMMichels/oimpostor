@@ -18,11 +18,23 @@ interface RoomResponse {
     room?: Room;
     playerId?: string;
     error?: string;
+    reconnected?: boolean;
 }
 
 const SOCKET_URL = typeof window !== 'undefined' && window.location.protocol === 'https:'
     ? window.location.origin
     : 'http://localhost:3001';
+
+// Generate or retrieve persistent session ID
+function getSessionId(): string {
+    const storageKey = 'advinha_session_id';
+    let sessionId = localStorage.getItem(storageKey);
+    if (!sessionId) {
+        sessionId = 'sess_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
+        localStorage.setItem(storageKey, sessionId);
+    }
+    return sessionId;
+}
 
 interface GameStore {
     // Connection
@@ -291,14 +303,18 @@ export const useGameStore = create<GameStore>((set, get) => ({
             }
 
             get().setPlayerName(name);
+            const sessionId = getSessionId();
 
-            socket.emit('room:create', name, (response: RoomResponse) => {
+            socket.emit('room:create', name, sessionId, (response: RoomResponse) => {
                 if (response.success && response.room) {
                     set({
                         room: response.room,
                         playerId: response.playerId || socket.id,
                         error: null,
                     });
+                    if (response.reconnected) {
+                        console.log('[Store] Reconnected to existing room');
+                    }
                     resolve(true);
                 } else {
                     set({ error: response.error || 'Erro ao criar sala.' });
@@ -319,14 +335,18 @@ export const useGameStore = create<GameStore>((set, get) => ({
             }
 
             get().setPlayerName(name);
+            const sessionId = getSessionId();
 
-            socket.emit('room:join', code.toUpperCase(), name, (response: RoomResponse) => {
+            socket.emit('room:join', code.toUpperCase(), name, sessionId, (response: RoomResponse) => {
                 if (response.success && response.room) {
                     set({
                         room: response.room,
                         playerId: response.playerId || socket.id,
                         error: null,
                     });
+                    if (response.reconnected) {
+                        console.log('[Store] Reconnected to existing room');
+                    }
                     resolve(true);
                 } else {
                     set({ error: response.error || 'Sala não encontrada.' });
