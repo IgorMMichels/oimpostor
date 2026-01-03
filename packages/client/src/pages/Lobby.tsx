@@ -19,6 +19,7 @@ export default function Lobby() {
 
     const [copied, setCopied] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
+    const [countdown, setCountdown] = useState<number | null>(null);
 
     // Redirect if not in room
     useEffect(() => {
@@ -33,6 +34,35 @@ export default function Lobby() {
             navigate(`/jogo/${room.code}`);
         }
     }, [room?.gameState?.phase, room?.code, navigate]);
+
+    const canStart = room ? room.players.length >= 3 : false;
+    const readyCount = room ? room.players.filter(p => p.isReady).length : 0;
+    const allReady = canStart && room && readyCount === room.players.length;
+
+    // Auto-start countdown when all players are ready
+    useEffect(() => {
+        if (!allReady || !isHost) {
+            setCountdown(null);
+            return;
+        }
+
+        // Start 5 second countdown
+        setCountdown(5);
+
+        const interval = setInterval(() => {
+            setCountdown(prev => {
+                if (prev === null) return null;
+                if (prev <= 1) {
+                    clearInterval(interval);
+                    startGame();
+                    return null;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [allReady, isHost, startGame]);
 
     if (!room) return null;
 
@@ -76,10 +106,7 @@ Código: *${room.code}*`;
         updateSettings({ [key]: !room.settings[key] });
     };
 
-    const canStart = room.players.length >= 3;
     const playersNeeded = 3 - room.players.length;
-    const readyCount = room.players.filter(p => p.isReady).length;
-    const allReady = canStart && readyCount === room.players.length;
 
     return (
         <div className="lobby-page">
@@ -288,33 +315,36 @@ Código: *${room.code}*`;
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
             >
-                {/* All Ready Indicator */}
-                {allReady && (
-                    <div className="all-ready-banner">
-                        ✨ Todos prontos! O host pode iniciar o jogo.
-                    </div>
+                {/* Countdown when all ready */}
+                {countdown !== null && (
+                    <motion.div
+                        className="countdown-banner"
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                    >
+                        🚀 Iniciando em {countdown}...
+                    </motion.div>
                 )}
 
                 {/* Ready Button - for everyone including host */}
                 <button
                     className={`ready-btn ${currentPlayer?.isReady ? 'is-ready' : ''}`}
                     onClick={() => setReady(!currentPlayer?.isReady)}
+                    disabled={countdown !== null}
                 >
                     {currentPlayer?.isReady ? '✅ Pronto!' : '👍 Estou pronto'}
                 </button>
 
                 {/* Start Button - only for host */}
-                {isHost && (
+                {isHost && countdown === null && (
                     <button
-                        className={`start-btn ${canStart ? 'ready' : ''} ${allReady ? 'all-ready' : ''}`}
+                        className={`start-btn ${canStart ? 'ready' : ''}`}
                         onClick={handleStart}
                         disabled={!canStart}
                     >
                         {!canStart
                             ? `Mínimo 3 jogadores`
-                            : allReady
-                                ? '🚀 Iniciar Agora!'
-                                : '🎮 Iniciar Jogo'}
+                            : '🎮 Iniciar Jogo'}
                     </button>
                 )}
             </motion.div>
