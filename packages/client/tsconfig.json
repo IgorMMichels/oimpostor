@@ -23,6 +23,9 @@
         "paths": {
             "@/*": [
                 "./src/*"
+            ],
+            "@advinha/shared": [
+                "../shared/types.ts"
             ]
         }
     },
