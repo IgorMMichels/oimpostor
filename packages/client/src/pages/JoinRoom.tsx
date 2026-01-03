@@ -23,11 +23,23 @@ export default function JoinRoom() {
 
     // Check if room exists when component mounts
     useEffect(() => {
-        if (!code || !isConnected) return;
+        if (!code) return;
+
+        // If not connected yet, wait a bit and retry
+        if (!isConnected) {
+            const timeout = setTimeout(() => {
+                // Component will re-render when isConnected changes
+            }, 100);
+            return () => clearTimeout(timeout);
+        }
+
+        let cancelled = false;
 
         const checkRoom = async () => {
             setRoomStatus('loading');
             const result = await checkRoomExists(code);
+
+            if (cancelled) return;
 
             if (!result.exists) {
                 setRoomStatus('not_found');
@@ -39,7 +51,11 @@ export default function JoinRoom() {
         };
 
         checkRoom();
-    }, [code, isConnected, checkRoomExists]);
+
+        return () => {
+            cancelled = true;
+        };
+    }, [code, isConnected]); // Removed checkRoomExists from deps to prevent loops
 
     const handleJoin = async (e: React.FormEvent) => {
         e.preventDefault();

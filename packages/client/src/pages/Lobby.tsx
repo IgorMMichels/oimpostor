@@ -75,6 +75,7 @@ export default function Lobby() {
     const canStart = room.players.length >= 3;
     const playersNeeded = 3 - room.players.length;
     const readyCount = room.players.filter(p => p.isReady).length;
+    const allReady = canStart && readyCount === room.players.length;
 
     return (
         <div className="lobby-page">
@@ -283,20 +284,33 @@ export default function Lobby() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
             >
-                {isHost ? (
+                {/* All Ready Indicator */}
+                {allReady && (
+                    <div className="all-ready-banner">
+                        ✨ Todos prontos! O host pode iniciar o jogo.
+                    </div>
+                )}
+
+                {/* Ready Button - for everyone including host */}
+                <button
+                    className={`ready-btn ${currentPlayer?.isReady ? 'is-ready' : ''}`}
+                    onClick={() => setReady(!currentPlayer?.isReady)}
+                >
+                    {currentPlayer?.isReady ? '✅ Pronto!' : '👍 Estou pronto'}
+                </button>
+
+                {/* Start Button - only for host */}
+                {isHost && (
                     <button
-                        className={`start-btn ${canStart ? 'ready' : ''}`}
+                        className={`start-btn ${canStart ? 'ready' : ''} ${allReady ? 'all-ready' : ''}`}
                         onClick={handleStart}
                         disabled={!canStart}
                     >
-                        {canStart ? '🎮 Iniciar Jogo' : `Mínimo 3 jogadores`}
-                    </button>
-                ) : (
-                    <button
-                        className={`ready-btn ${currentPlayer?.isReady ? 'is-ready' : ''}`}
-                        onClick={() => setReady(!currentPlayer?.isReady)}
-                    >
-                        {currentPlayer?.isReady ? '✅ Pronto!' : '👍 Estou pronto'}
+                        {!canStart
+                            ? `Mínimo 3 jogadores`
+                            : allReady
+                                ? '🚀 Iniciar Agora!'
+                                : '🎮 Iniciar Jogo'}
                     </button>
                 )}
             </motion.div>
