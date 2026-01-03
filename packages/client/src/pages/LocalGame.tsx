@@ -779,6 +779,16 @@ export default function LocalGame() {
                                 </motion.h1>
                             </div>
 
+                            {/* Word Reminder Box */}
+                            <div className="word-reminder-box">
+                                <span className="word-reminder-label">
+                                    {session.players[session.currentPlayerIndex]?.isImpostor ? '🎭 Impostor' : '🔑 Palavra'}
+                                </span>
+                                <span className="word-reminder-value">
+                                    {session.players[session.currentPlayerIndex]?.isImpostor ? '???' : session.word}
+                                </span>
+                            </div>
+
                             {/* Timer */}
                             {session.timerEndsAt && timeLeft !== null && (
                                 <div className={`hint-timer ${timeLeft <= 5 ? 'urgent' : ''}`}>

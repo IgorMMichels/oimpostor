@@ -1296,6 +1296,32 @@
     100% { transform: scale(1); opacity: 1; }
 }
 
+/* Word Reminder Box */
+.word-reminder-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    background: rgba(34, 197, 94, 0.1);
+    border: 2px solid rgba(34, 197, 94, 0.3);
+    border-radius: 16px;
+    min-width: 200px;
+}
+
+.word-reminder-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.word-reminder-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-success);
+}
+
 .next-turn-btn {
     background: linear-gradient(135deg, var(--primary), #00cc6a);
     color: black;
