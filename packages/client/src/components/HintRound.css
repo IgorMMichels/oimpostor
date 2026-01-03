@@ -39,6 +39,63 @@
   font-size: 0.9375rem;
 }
 
+/* Word/Category Reminder */
+.word-reminder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+  background: rgba(34, 197, 94, 0.08);
+  border: 2px solid rgba(34, 197, 94, 0.25);
+  border-radius: var(--radius-xl);
+  text-align: center;
+}
+
+.word-reminder.impostor {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.25);
+}
+
+.reminder-category {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-md);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-full);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.reminder-icon {
+  font-size: 1rem;
+}
+
+.reminder-word {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.reminder-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
+.reminder-value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--accent-success);
+}
+
+.word-reminder.impostor .reminder-value {
+  color: var(--accent-impostor);
+}
+
 /* Turn Indicator */
 .turn-indicator {
   display: flex;
@@ -186,11 +243,44 @@
 
 /* Mobile */
 @media (max-width: 480px) {
+  .hint-round {
+    padding: var(--space-md);
+    gap: var(--space-lg);
+  }
+
+  .hint-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .word-reminder {
+    padding: var(--space-md);
+  }
+
+  .reminder-value {
+    font-size: 1.5rem;
+  }
+
+  .turn-indicator {
+    padding: var(--space-md);
+    font-size: 1rem;
+    flex-direction: column;
+    text-align: center;
+  }
+
   .hint-form {
     flex-direction: column;
   }
 
   .hint-submit {
     width: 100%;
+  }
+
+  .hint-input {
+    padding: var(--space-md);
+  }
+
+  .hints-list {
+    max-height: 150px;
+    overflow-y: auto;
   }
 }

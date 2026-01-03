@@ -13,7 +13,7 @@ interface HintRoundProps {
 }
 
 export default function HintRound({ currentTurnPlayerId }: HintRoundProps) {
-    const { room, submitHint } = useGameStore();
+    const { room, submitHint, role } = useGameStore();
     const currentPlayer = useCurrentPlayer();
 
     const [hint, setHint] = useState('');
@@ -22,6 +22,9 @@ export default function HintRound({ currentTurnPlayerId }: HintRoundProps) {
     const isMyTurn = currentTurnPlayerId === currentPlayer?.id;
     const hints = room?.gameState?.hints || [];
     const hintRound = room?.gameState?.hintRound || 1;
+    const category = room?.gameState?.category;
+    const word = role?.word;
+    const isImpostor = role?.isImpostor;
 
     // Find who's turn it is
     const turnPlayer = room?.players.find(p => p.id === currentTurnPlayerId);
@@ -51,6 +54,20 @@ export default function HintRound({ currentTurnPlayerId }: HintRoundProps) {
                 <span className="hint-badge">Rodada de Dicas #{hintRound}</span>
                 <h2>Dê uma dica sobre a palavra</h2>
                 <p>Cada jogador dá uma dica. O impostor precisa blefar!</p>
+            </div>
+
+            {/* Word/Category Reminder */}
+            <div className={`word-reminder ${isImpostor ? 'impostor' : ''}`}>
+                {category && (
+                    <div className="reminder-category">
+                        <span className="reminder-icon">{category.icon}</span>
+                        <span className="reminder-text">{category.name}</span>
+                    </div>
+                )}
+                <div className="reminder-word">
+                    <span className="reminder-label">{isImpostor ? '🎭 Você é o Impostor' : '🔑 Sua palavra'}</span>
+                    <span className="reminder-value">{isImpostor ? '???' : word || '...'}</span>
+                </div>
             </div>
 
             {/* Turn Indicator */}
