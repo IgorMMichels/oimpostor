@@ -55,10 +55,8 @@ export default function PlayerCard({
 
             {/* Info */}
             <div className="pc-info">
-                <span className="pc-name">
-                    {player.name}
-                    {isCurrentPlayer && <span className="pc-you">(você)</span>}
-                </span>
+                <span className="pc-name">{player.name}</span>
+                {isCurrentPlayer && <span className="pc-you">(você)</span>}
             </div>
 
             {/* Status */}
