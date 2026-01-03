@@ -37,7 +37,11 @@ export default function Lobby() {
     if (!room) return null;
 
     const inviteLink = `${window.location.origin}/sala/${room.code}`;
-    const whatsappMessage = `🎭 *Vem jogar O Impostor comigo!*\n\nDescubra quem é o impostor 🔍\n\n👉 ${inviteLink}\n\nOu digite o código: *${room.code}*`;
+    const whatsappMessage = `Bora jogar O IMPOSTOR! 🎭
+
+Entra na sala: ${inviteLink}
+
+Código: *${room.code}*`;
     const whatsappLink = `https://wa.me/?text=${encodeURIComponent(whatsappMessage)}`;
 
     const copyInviteLink = async () => {
