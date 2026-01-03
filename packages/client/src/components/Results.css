@@ -143,3 +143,65 @@
   color: var(--text-muted);
   animation: pulse 2s ease-in-out infinite;
 }
+
+/* Mobile Adjustments */
+@media (max-width: 480px) {
+  .results-container {
+    max-width: 100%;
+    padding: 0 var(--space-sm);
+  }
+
+  .impostor-reveal {
+    margin-bottom: var(--space-lg);
+  }
+
+  .reveal-icon {
+    font-size: 3.5rem;
+  }
+
+  .impostor-reveal h2 {
+    font-size: 1rem;
+  }
+
+  .impostor-name {
+    font-size: 1.75rem;
+    margin-bottom: var(--space-md);
+  }
+
+  .verdict {
+    padding: var(--space-xs) var(--space-lg);
+    font-size: 1rem;
+  }
+
+  .scoreboard {
+    padding: var(--space-md);
+    margin-bottom: var(--space-lg);
+  }
+
+  .scoreboard h3 {
+    font-size: 1rem;
+    margin-bottom: var(--space-md);
+  }
+
+  .score-row {
+    padding: var(--space-sm);
+    gap: var(--space-sm);
+  }
+
+  .score-rank {
+    font-size: 1rem;
+    width: 32px;
+  }
+
+  .score-name {
+    font-size: 0.875rem;
+  }
+
+  .round-score {
+    font-size: 0.75rem;
+  }
+
+  .total-score {
+    font-size: 0.875rem;
+  }
+}
