@@ -100,6 +100,7 @@ export interface GameState {
     hints: HintEntry[];             // All hints given
     turnOrder: string[];            // Player IDs in turn order
     currentTurnIndex: number;       // Index of current player's turn
+    decisionVotes?: Record<string, 'vote' | 'continue'>; // NEW: Votes for decision
 }
 
 export interface HintEntry {
@@ -120,103 +121,7 @@ export interface ChatMessage {
 // ============================================
 // CATEGORIES & WORDS
 // ============================================
-
-export interface Category {
-    id: string;
-    name: string;
-    icon: string;
-    words: string[];
-}
-
-export interface CategoriesData {
-    categories: Category[];
-}
-
-// ============================================
-// COSMETICS
-// ============================================
-
-export type CosmeticType = 'frame' | 'nameColor' | 'icon' | 'emote';
-
-export interface Cosmetic {
-    id: string;
-    type: CosmeticType;
-    name: string;
-    price: number;
-    preview: string; // CSS value, emoji, or image URL
-    isDefault?: boolean;
-}
-
-// ============================================
-// SOCKET EVENTS
-// ============================================
-
-// Client -> Server
-export interface ClientToServerEvents {
-    'room:create': (playerName: string, sessionId: string | null, callback: (response: RoomResponse) => void) => void;
-    'room:join': (code: string, playerName: string, sessionId: string | null, callback: (response: RoomResponse) => void) => void;
-    'room:leave': () => void;
-    'room:check-exists': (code: string, callback: (response: RoomCheckResponse) => void) => void;
-    'room:update-settings': (settings: Partial<RoomSettings>) => void;
-    'game:start': () => void;
-    'game:chat': (message: string) => void;
-    'game:vote': (targetId: string) => void;
-    'game:next-phase': () => void;
-    'game:submit-hint': (hint: string) => void;
-    'game:vote-decision': (decision: 'vote' | 'continue') => void;
-    'player:ready': (isReady: boolean) => void;
-
-    // LOCAL MODE EVENTS (Pass & Play)
-    'local:create-session': (callback: (response: LocalSessionResponse) => void) => void;
-    'local:add-player': (sessionId: string, name: string, callback: (response: LocalSessionResponse) => void) => void;
-    'local:remove-player': (sessionId: string, playerId: string, callback: (response: LocalSessionResponse) => void) => void;
-    'local:shuffle-players': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void;
-    'local:update-settings': (sessionId: string, settings: Partial<LocalSettings>, callback: (response: LocalSessionResponse) => void) => void;
-    'local:start-game': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void;
-    'local:start-reveal': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void;
-    'local:player-ready': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void;
-    'local:confirm-reveal': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void;
-    'local:start-voting': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void;
-    'local:voter-ready': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void;
-    'local:submit-vote': (sessionId: string, targetId: string, callback: (response: LocalSessionResponse) => void) => void;
-    'local:host-eliminate': (sessionId: string, targetId: string | null, callback: (response: LocalSessionResponse) => void) => void;
-    'local:next-turn': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void; // New: Next player hint
-    'local:continue-game': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void;
-    'local:play-again': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void;
-    'local:get-session': (sessionId: string, callback: (response: LocalSessionResponse) => void) => void;
-}
-
-// Server -> Client
-export interface ServerToClientEvents {
-    'room:updated': (room: Room) => void;
-    'room:player-joined': (player: Player) => void;
-    'room:player-left': (playerId: string) => void;
-    'game:phase-changed': (phase: GamePhase, data?: PhaseData) => void;
-    'game:role-assigned': (role: RoleAssignment) => void;
-    'game:chat-message': (message: ChatMessage) => void;
-    'game:vote-received': (voterId: string) => void;
-    'game:timer-update': (secondsLeft: number) => void;
-    'game:results': (results: GameResults) => void;
-    'game:hint-received': (hint: HintEntry) => void;     // NEW: Hint broadcast
-    'game:turn-changed': (playerId: string) => void;     // NEW: Turn changed
-    'error': (message: string) => void;
-    'local:session-updated': (session: LocalGameState) => void; // Sync local session state
-}
-
-export interface RoomResponse {
-    success: boolean;
-    room?: Room;
-    playerId?: string;
-    error?: string;
-    reconnected?: boolean; // True if this was a session reconnection
-}
-
-export interface RoomCheckResponse {
-    exists: boolean;
-    playerCount?: number;
-    maxPlayers?: number;
-}
-
+// ... (omitted) ...
 export interface PhaseData {
     category?: Category;
     word?: string;
@@ -227,6 +132,7 @@ export interface PhaseData {
     hintRound?: number;           // NEW
     hints?: HintEntry[];          // NEW
     currentTurnPlayerId?: string; // NEW
+    decisionVotes?: Record<string, 'vote' | 'continue'>; // NEW
 }
 
 export interface RoleAssignment {

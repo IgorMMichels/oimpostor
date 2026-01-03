@@ -26,9 +26,11 @@ export default function WordReveal({ category, isSpinning = false }: WordRevealP
     useEffect(() => {
         if (!isSpinning) return;
 
+        const wordsToUse = category?.words?.length ? category.words : SAMPLE_WORDS;
+
         const interval = setInterval(() => {
-            setWordIndex(prev => (prev + 1) % SAMPLE_WORDS.length);
-            setCurrentWord(SAMPLE_WORDS[(wordIndex + 1) % SAMPLE_WORDS.length]);
+            setWordIndex(prev => (prev + 1) % wordsToUse.length);
+            setCurrentWord(wordsToUse[(wordIndex + 1) % wordsToUse.length]);
         }, 80);
 
         return () => clearInterval(interval);

@@ -313,7 +313,7 @@ export function setupSocketHandlers(
             }
         });
 
-        // Vote decision (new) - host decides to vote or continue
+        // Vote decision - players vote to vote now or continue
         socket.on('game:vote-decision', (decision) => {
             const room = roomManager.getRoomByPlayerId(socket.id);
             if (!room?.gameState) return;
@@ -321,27 +321,37 @@ export function setupSocketHandlers(
             // Only during vote_decision phase
             if (room.gameState.phase !== 'vote_decision') return;
 
-            // Only host can decide
-            const player = room.players.find(p => p.id === socket.id);
-            if (!player?.isHost) return;
-
             const engine = gameEngines.get(room.code);
             if (!engine) return;
 
-            if (decision === 'vote') {
-                // Start voting phase
-                engine.startVoting(room.gameState);
-                roomManager.updateGameState(room.code, room.gameState);
+            // Submit vote
+            engine.submitVoteDecision(room.gameState, socket.id, decision);
+            roomManager.updateGameState(room.code, room.gameState);
 
-                io.to(room.code).emit('game:phase-changed', 'voting', {
-                    timerEndsAt: room.gameState.timerEndsAt ?? undefined,
-                });
+            // Notify everyone of the update (so UI updates counts)
+            io.to(room.code).emit('room:updated', room);
 
-                // Start voting timer
-                startVotingTimer(io, room, room.gameState, engine, roomManager);
-            } else {
-                // Continue with another hint round
-                startHintRound(io, room, engine, roomManager);
+            // Check if everyone voted or majority reached
+            const connectedPlayers = room.players.filter(p => p.isConnected).length;
+            const result = engine.checkVoteDecisionCompletion(room.gameState, connectedPlayers);
+
+            if (result) {
+                // Decision made!
+                if (result === 'vote') {
+                    // Start voting phase
+                    engine.startVoting(room.gameState);
+                    roomManager.updateGameState(room.code, room.gameState);
+
+                    io.to(room.code).emit('game:phase-changed', 'voting', {
+                        timerEndsAt: room.gameState.timerEndsAt ?? undefined,
+                    });
+
+                    // Start voting timer
+                    startVotingTimer(io, room, room.gameState, engine, roomManager);
+                } else {
+                    // Continue with another hint round
+                    startHintRound(io, room, engine, roomManager);
+                }
             }
         });
 

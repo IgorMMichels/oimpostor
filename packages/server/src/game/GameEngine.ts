@@ -75,6 +75,7 @@ export class GameEngine {
             hints: [],
             turnOrder: shuffledOrder,
             currentTurnIndex: 0,
+            decisionVotes: {},
         };
 
         // Initialize scores for all players
@@ -222,6 +223,50 @@ export class GameEngine {
     startVoteDecision(state: GameState): void {
         state.phase = 'vote_decision';
         state.timerEndsAt = this.calculateTimerEnd(TIMERS.VOTE_DECISION);
+        state.decisionVotes = {}; // Reset votes
+    }
+
+    // Submit a vote decision (vote vs continue)
+    submitVoteDecision(
+        state: GameState,
+        playerId: string,
+        decision: 'vote' | 'continue'
+    ): boolean {
+        // Initialize if missing
+        if (!state.decisionVotes) {
+            state.decisionVotes = {};
+        }
+
+        // Record vote
+        state.decisionVotes[playerId] = decision;
+        return true;
+    }
+
+    // Check if decision voting is complete
+    checkVoteDecisionCompletion(state: GameState, playerCount: number): 'vote' | 'continue' | null {
+        const votes = state.decisionVotes || {};
+        const voteCount = Object.keys(votes).length;
+
+        // If not everyone voted, wait (unless timer handles force end)
+        if (voteCount < playerCount) {
+            return null;
+        }
+
+        // Tally votes
+        let voteNowCount = 0;
+        let continueCount = 0;
+
+        Object.values(votes).forEach(decision => {
+            if (decision === 'vote') voteNowCount++;
+            else continueCount++;
+        });
+
+        // Majority rules. Tie = Continue (more hints is safer/default)
+        if (voteNowCount > continueCount) {
+            return 'vote';
+        } else {
+            return 'continue';
+        }
     }
 
     // Filter out secret word from text

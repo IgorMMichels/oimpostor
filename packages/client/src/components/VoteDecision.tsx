@@ -14,13 +14,30 @@ interface VoteDecisionProps {
 
 export default function VoteDecision({ timerEndsAt }: VoteDecisionProps) {
     const { voteDecision, room } = useGameStore();
-    const isHost = useIsHost();
+    const { voteDecision, room, playerId } = useGameStore();
 
     const [secondsLeft, setSecondsLeft] = useState(15);
     const [deciding, setDeciding] = useState(false);
 
     const hintRound = room?.gameState?.hintRound || 1;
     const hints = room?.gameState?.hints || [];
+
+    // Decision voting state
+    const votes = room?.gameState?.decisionVotes || {};
+    const myVote = playerId ? votes[playerId] : undefined;
+    const hasVoted = !!myVote;
+
+    const voteCounts = {
+        vote: 0,
+        continue: 0
+    };
+
+    if (votes) {
+        Object.values(votes).forEach(v => {
+            if (v === 'vote') voteCounts.vote++;
+            else if (v === 'continue') voteCounts.continue++;
+        });
+    }
 
     // Timer countdown
     useEffect(() => {
@@ -35,7 +52,7 @@ export default function VoteDecision({ timerEndsAt }: VoteDecisionProps) {
     }, [timerEndsAt]);
 
     const handleDecision = (decision: 'vote' | 'continue') => {
-        if (!isHost || deciding) return;
+        if (hasVoted || deciding) return;
         setDeciding(true);
         voteDecision(decision);
     };
@@ -64,41 +81,57 @@ export default function VoteDecision({ timerEndsAt }: VoteDecisionProps) {
             </div>
 
             {/* Decision Buttons (Host only) */}
-            {isHost ? (
-                <div className="decision-actions">
-                    <motion.button
-                        className="decision-btn vote"
-                        onClick={() => handleDecision('vote')}
-                        disabled={deciding}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                    >
-                        <span className="btn-icon">🗳️</span>
-                        <span className="btn-text">Votar Agora</span>
-                        <span className="btn-hint">Descobrir o impostor</span>
-                    </motion.button>
+            {/* Vote Decision UI */}
+            <div className="decision-actions">
+                {!hasVoted ? (
+                    <>
+                        <motion.button
+                            className="decision-btn vote"
+                            onClick={() => handleDecision('vote')}
+                            disabled={deciding}
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                        >
+                            <span className="btn-icon">🗳️</span>
+                            <span className="btn-text">Votar Agora</span>
+                            <span className="btn-hint">Descobrir o impostor</span>
+                        </motion.button>
 
-                    <motion.button
-                        className="decision-btn continue"
-                        onClick={() => handleDecision('continue')}
-                        disabled={deciding}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                    >
-                        <span className="btn-icon">🔄</span>
-                        <span className="btn-text">Mais Dicas</span>
-                        <span className="btn-hint">Continuar investigando</span>
-                    </motion.button>
+                        <motion.button
+                            className="decision-btn continue"
+                            onClick={() => handleDecision('continue')}
+                            disabled={deciding}
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                        >
+                            <span className="btn-icon">🔄</span>
+                            <span className="btn-text">Mais Dicas</span>
+                            <span className="btn-hint">Continuar investigando</span>
+                        </motion.button>
+                    </>
+                ) : (
+                    <div className="waiting-host">
+                        <span className="waiting-icon">⏳</span>
+                        <p>Aguardando outros jogadores...</p>
+                        <p className="waiting-note">
+                            Você votou em: <strong>{myVote === 'vote' ? 'Votar Agora' : 'Mais Dicas'}</strong>
+                        </p>
+                    </div>
+                )}
+            </div>
+
+            {/* Vote Tally */}
+            <div className="vote-tally">
+                <div className="tally-item">
+                    <span className="tally-label">Votar:</span>
+                    <span className="tally-count">{voteCounts.vote}</span>
                 </div>
-            ) : (
-                <div className="waiting-host">
-                    <span className="waiting-icon">⏳</span>
-                    <p>Aguardando host decidir...</p>
-                    <p className="waiting-note">
-                        Se o tempo acabar, outra rodada de dicas começará automaticamente.
-                    </p>
+                <div className="tally-mid">vs</div>
+                <div className="tally-item">
+                    <span className="tally-label">Mais Dicas:</span>
+                    <span className="tally-count">{voteCounts.continue}</span>
                 </div>
-            )}
+            </div>
 
             {/* Hint Summary */}
             <div className="hint-summary">
