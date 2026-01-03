@@ -300,56 +300,63 @@
   flex-shrink: 0;
 }
 
-/* How it works */
-.how-it-works {
-  margin-top: var(--space-2xl);
-  text-align: center;
+/* How to Play Button */
+.how-to-play-button {
+  margin-top: var(--space-xl);
   width: 100%;
-}
-
-.how-it-works h3 {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: var(--space-lg);
-}
-
-.steps {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
-.step {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  padding: var(--space-md);
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: var(--radius-lg);
-  text-align: left;
-}
-
-.step-number {
-  flex-shrink: 0;
-  width: 32px;
-  height: 32px;
+  max-width: 320px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
-  border-radius: 50%;
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: white;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+  border: 1px dashed rgba(139, 92, 246, 0.4);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 56px;
+  position: relative;
+  overflow: hidden;
 }
 
-.step-text {
-  font-size: 0.9375rem;
-  color: var(--text-secondary);
+.how-to-play-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(236, 72, 153, 0.15) 100%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.how-to-play-button:hover::before {
+  opacity: 1;
+}
+
+.how-to-play-button:hover {
+  border-style: solid;
+  box-shadow: 0 4px 20px rgba(139, 92, 246, 0.2);
+}
+
+.htp-icon {
+  font-size: 1.5rem;
+  z-index: 1;
+}
+
+.htp-text {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  z-index: 1;
+}
+
+.htp-hint {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  background: rgba(139, 92, 246, 0.2);
+  color: var(--accent-primary);
+  border-radius: var(--radius-full);
+  z-index: 1;
 }
 
 /* Form Card */
@@ -574,12 +581,8 @@
     padding: var(--space-lg);
   }
 
-  .step {
-    padding: var(--space-sm);
-  }
-
-  .step-text {
-    font-size: 0.875rem;
+  .how-to-play-button {
+    min-height: 48px;
   }
 
   .input-large,

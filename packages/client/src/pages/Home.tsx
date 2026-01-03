@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useGameStore } from '../store/gameStore';
 import GridBackground from '../components/GridBackground';
 import IntroAnimation from '../components/IntroAnimation';
+import HowToPlayModal from '../components/HowToPlayModal';
 import './Home.css';
 
 type Mode = 'initial' | 'create' | 'join';
@@ -26,6 +27,7 @@ export default function Home() {
     const [name, setName] = useState(playerName);
     const [roomCode, setRoomCode] = useState('');
     const [loading, setLoading] = useState(false);
+    const [showHowToPlay, setShowHowToPlay] = useState(false);
 
     const handleIntroComplete = useCallback(() => {
         sessionStorage.setItem('advinha_intro_seen', 'true');
@@ -212,29 +214,20 @@ export default function Home() {
                                 </div>
                             </motion.div>
 
-                            {/* How it works - compact */}
-                            <motion.div
-                                className="how-it-works"
+                            {/* How to Play Button */}
+                            <motion.button
+                                className="how-to-play-button"
+                                onClick={() => setShowHowToPlay(true)}
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: 0.7 }}
+                                whileHover={{ scale: 1.02, y: -2 }}
+                                whileTap={{ scale: 0.98 }}
                             >
-                                <h3>Como funciona?</h3>
-                                <div className="steps">
-                                    <div className="step">
-                                        <span className="step-number">1</span>
-                                        <span className="step-text">Todos recebem uma palavra secreta</span>
-                                    </div>
-                                    <div className="step">
-                                        <span className="step-number">2</span>
-                                        <span className="step-text">Exceto o impostor, que finge saber</span>
-                                    </div>
-                                    <div className="step">
-                                        <span className="step-number">3</span>
-                                        <span className="step-text">Encontre quem está mentindo!</span>
-                                    </div>
-                                </div>
-                            </motion.div>
+                                <span className="htp-icon">❓</span>
+                                <span className="htp-text">Como Jogar</span>
+                                <span className="htp-hint">Tutorial interativo</span>
+                            </motion.button>
                         </motion.div>
                     )}
 
@@ -392,6 +385,16 @@ export default function Home() {
             <footer className="home-footer">
                 <p>Jogo de dedução social • Grátis para jogar</p>
             </footer>
+
+            {/* How to Play Modal */}
+            <AnimatePresence>
+                {showHowToPlay && (
+                    <HowToPlayModal
+                        isOpen={showHowToPlay}
+                        onClose={() => setShowHowToPlay(false)}
+                    />
+                )}
+            </AnimatePresence>
         </div>
     );
 }
