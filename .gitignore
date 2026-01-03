@@ -33,3 +33,6 @@ coverage/
 # Misc
 *.tgz
 .cache/
+
+.gemini/
+gha-creds-*.json
