@@ -5,13 +5,11 @@
       "name": "Animais",
       "icon": "🐾",
       "words": [
-        "Cachorro", "Gato", "Elefante", "Leão", "Tigre", "Urso", "Macaco", "Girafa",
-        "Zebra", "Hipopótamo", "Gorila", "Lobo", "Raposa", "Cavalo", "Burro",
-        "Ovelha", "Cabra", "Coelho", "Rato", "Esquilo", "Golfinho", "Baleia",
-        "Tubarão", "Polvo", "Caranguejo", "Tartaruga", "Jacaré", "Cobra", "Lagarto",
-        "Sapo", "Águia", "Coruja", "Papagaio", "Tucano", "Pinguim", "Pato",
-        "Galinha", "Galo", "Pavão", "Formiga", "Abelha", "Borboleta", "Aranha",
-        "Morcego", "Porco", "Vaca", "Boi", "Onça", "Arara", "Capivara"
+        "Cachorro", "Gato", "Pássaro", "Peixe", "Cavalo", "Vaca", "Porco",
+        "Galinha", "Pato", "Coelho", "Rato", "Leão", "Elefante", "Macaco",
+        "Cobra", "Sapo", "Tartaruga", "Papagaio", "Borboleta", "Formiga",
+        "Abelha", "Aranha", "Golfinho", "Tubarão", "Urso", "Lobo", "Raposa",
+        "Girafa", "Zebra", "Tigre"
       ]
     },
     {
@@ -19,13 +17,11 @@
       "name": "Comidas",
       "icon": "🍕",
       "words": [
-        "Pizza", "Arroz", "Feijão", "Feijoada", "Churrasco", "Picanha", "Frango",
-        "Peixe", "Camarão", "Ovo", "Salada", "Sopa", "Pastel", "Coxinha", "Empada",
-        "Pão de queijo", "Tapioca", "Açaí", "Brigadeiro", "Pudim", "Bolo", "Torta",
-        "Sorvete", "Chocolate", "Biscoito", "Pipoca", "Batata frita", "Cachorro quente",
-        "Sanduíche", "Moqueca", "Acarajé", "Paçoca", "Pé de moleque", "Goiabada",
-        "Queijo", "Presunto", "Mortadela", "Macarrão", "Lasanha", "Estrogonofe",
-        "Farofa", "Baião de dois", "Caldo verde", "Vatapá", "Bobó", "Bacalhau"
+        "Pizza", "Arroz", "Feijão", "Pão", "Ovo", "Queijo", "Carne",
+        "Frango", "Peixe", "Salada", "Sopa", "Macarrão", "Bolo", "Sorvete",
+        "Chocolate", "Biscoito", "Pipoca", "Batata", "Cenoura", "Tomate",
+        "Banana", "Maçã", "Laranja", "Leite", "Café", "Suco", "Açúcar",
+        "Sal", "Manteiga", "Sanduíche"
       ]
     },
     {
@@ -33,14 +29,11 @@
       "name": "Profissões",
       "icon": "👔",
       "words": [
-        "Médico", "Enfermeiro", "Dentista", "Veterinário", "Farmacêutico",
-        "Advogado", "Juiz", "Delegado", "Policial", "Bombeiro", "Professor",
-        "Diretor", "Pedreiro", "Eletricista", "Encanador", "Pintor", "Marceneiro",
-        "Mecânico", "Motorista", "Piloto", "Cozinheiro", "Garçom", "Padeiro",
-        "Açougueiro", "Vendedor", "Gerente", "Contador", "Programador", "Fotógrafo",
-        "Jornalista", "Escritor", "Ator", "Músico", "Cantor", "Atleta", "Treinador",
-        "Agricultor", "Pescador", "Biólogo", "Engenheiro", "Arquiteto", "Carteiro",
-        "Faxineiro", "Porteiro", "Segurança", "Taxista", "Barbeiro", "Cabeleireiro"
+        "Médico", "Professor", "Policial", "Bombeiro", "Dentista", "Padeiro",
+        "Motorista", "Pintor", "Cozinheiro", "Cantor", "Ator", "Músico",
+        "Jogador", "Piloto", "Garçom", "Vendedor", "Pedreiro", "Mecânico",
+        "Pescador", "Fazendeiro", "Carteiro", "Porteiro", "Juiz", "Advogado",
+        "Pastor", "Padre", "Enfermeiro", "Veterinário", "Cabeleireiro", "Jornalista"
       ]
     },
     {
@@ -48,38 +41,11 @@
       "name": "Lugares",
       "icon": "🌍",
       "words": [
-        "Praia", "Montanha", "Floresta", "Ilha", "Cachoeira", "Rio", "Lago",
-        "Hospital", "Escola", "Biblioteca", "Museu", "Teatro", "Cinema",
-        "Shopping", "Supermercado", "Farmácia", "Padaria", "Restaurante",
-        "Bar", "Hotel", "Aeroporto", "Rodoviária", "Parque", "Praça", "Jardim",
-        "Zoológico", "Estádio", "Academia", "Piscina", "Igreja", "Cemitério",
-        "Prisão", "Prefeitura", "Delegacia", "Fazenda", "Sítio", "Favela",
-        "Mercado", "Feira", "Banco", "Correio", "Posto de gasolina", "Oficina"
-      ]
-    },
-    {
-      "id": "esportes",
-      "name": "Esportes",
-      "icon": "⚽",
-      "words": [
-        "Futebol", "Vôlei", "Basquete", "Natação", "Corrida", "Ciclismo",
-        "Tênis", "Surfe", "Skate", "Capoeira", "Judô", "Boxe", "Ginástica",
-        "Atletismo", "Maratona", "Handebol", "Peteca", "Frescobol", "Sinuca",
-        "Boliche", "Futebol de salão", "Vôlei de praia", "Futevôlei",
-        "Arco e flecha", "Esgrima", "Hipismo", "Remo", "Canoagem", "Escalada",
-        "Patinação", "Mergulho", "Salto em altura", "Salto em distância"
-      ]
-    },
-    {
-      "id": "musica",
-      "name": "Música",
-      "icon": "🎵",
-      "words": [
-        "Violão", "Guitarra", "Bateria", "Piano", "Teclado", "Violino", "Flauta",
-        "Saxofone", "Trompete", "Gaita", "Sanfona", "Acordeão", "Cavaquinho",
-        "Pandeiro", "Tambor", "Triângulo", "Berimbau", "Cuíca", "Surdo",
-        "Samba", "Pagode", "Forró", "Sertanejo", "Axé", "Funk", "Bossa nova",
-        "Reggae", "Capoeira", "Frevo", "Maracatu", "Baião"
+        "Casa", "Escola", "Hospital", "Igreja", "Praia", "Parque", "Shopping",
+        "Supermercado", "Banco", "Farmácia", "Padaria", "Cinema", "Teatro",
+        "Restaurante", "Hotel", "Aeroporto", "Fazenda", "Floresta", "Montanha",
+        "Rio", "Lago", "Mar", "Piscina", "Praça", "Rua", "Biblioteca",
+        "Museu", "Estádio", "Academia", "Zoológico"
       ]
     },
     {
@@ -87,13 +53,11 @@
       "name": "Objetos",
       "icon": "📦",
       "words": [
-        "Celular", "Computador", "Televisão", "Controle remoto", "Fone de ouvido",
-        "Relógio", "Óculos", "Caneta", "Lápis", "Caderno", "Livro", "Mochila",
-        "Bolsa", "Carteira", "Chave", "Guarda-chuva", "Lanterna", "Espelho",
-        "Escova de dente", "Toalha", "Travesseiro", "Cobertor", "Cama", "Sofá",
-        "Cadeira", "Mesa", "Armário", "Lâmpada", "Ventilador", "Geladeira",
-        "Fogão", "Panela", "Frigideira", "Prato", "Copo", "Talher", "Faca",
-        "Tesoura", "Martelo", "Vassoura", "Balde", "Cabide", "Ferro de passar"
+        "Celular", "Televisão", "Computador", "Mesa", "Cadeira", "Cama",
+        "Sofá", "Espelho", "Relógio", "Chave", "Porta", "Janela", "Lâmpada",
+        "Caneta", "Lápis", "Livro", "Caderno", "Bolsa", "Mochila", "Óculos",
+        "Guarda-chuva", "Tesoura", "Faca", "Garfo", "Colher", "Prato", "Copo",
+        "Panela", "Vassoura", "Balde"
       ]
     },
     {
@@ -101,25 +65,22 @@
       "name": "Roupas",
       "icon": "👕",
       "words": [
-        "Camiseta", "Camisa", "Blusa", "Casaco", "Jaqueta", "Vestido", "Saia",
-        "Calça", "Bermuda", "Cueca", "Calcinha", "Sutiã", "Meia", "Pijama",
-        "Biquíni", "Maiô", "Sunga", "Sapato", "Tênis", "Sandália", "Chinelo",
-        "Bota", "Chapéu", "Boné", "Touca", "Cachecol", "Gravata", "Cinto",
-        "Pulseira", "Colar", "Brinco", "Anel", "Relógio", "Óculos de sol",
-        "Luva", "Avental", "Uniforme", "Colete", "Moletom", "Regata"
+        "Camisa", "Calça", "Vestido", "Saia", "Bermuda", "Meia", "Sapato",
+        "Tênis", "Sandália", "Chinelo", "Chapéu", "Boné", "Casaco", "Jaqueta",
+        "Gravata", "Cinto", "Pijama", "Cueca", "Calcinha", "Biquíni",
+        "Luva", "Cachecol", "Anel", "Brinco", "Colar", "Pulseira", "Blusa",
+        "Moletom", "Suéter", "Uniforme"
       ]
     },
     {
-      "id": "veiculos",
-      "name": "Veículos",
+      "id": "transportes",
+      "name": "Transportes",
       "icon": "🚗",
       "words": [
-        "Carro", "Moto", "Bicicleta", "Ônibus", "Caminhão", "Van", "Ambulância",
-        "Carro de polícia", "Carro de bombeiro", "Táxi", "Trem", "Metrô",
-        "Avião", "Helicóptero", "Navio", "Barco", "Lancha", "Canoa", "Caiaque",
-        "Patinete", "Skate", "Triciclo", "Jipe", "Caminhonete", "Perua",
-        "Carroça", "Charrete", "Bondinho", "Balsa", "Iate", "Veleiro",
-        "Submarino", "Trator", "Escavadeira"
+        "Carro", "Moto", "Bicicleta", "Ônibus", "Avião", "Navio", "Barco",
+        "Trem", "Metrô", "Táxi", "Caminhão", "Helicóptero", "Patinete",
+        "Skate", "Ambulância", "Trator", "Foguete", "Submarino", "Canoa",
+        "Carroça"
       ]
     },
     {
@@ -127,49 +88,53 @@
       "name": "Natureza",
       "icon": "🌿",
       "words": [
-        "Árvore", "Flor", "Grama", "Folha", "Galho", "Tronco", "Semente",
-        "Rosa", "Girassol", "Margarida", "Orquídea", "Violeta", "Samambaia",
-        "Cacto", "Palmeira", "Coqueiro", "Mangueira", "Laranjeira", "Limoeiro",
-        "Sol", "Lua", "Estrela", "Nuvem", "Chuva", "Raio", "Trovão",
-        "Arco-íris", "Neblina", "Vento", "Tornado", "Vulcão", "Terremoto",
-        "Pedra", "Areia", "Terra", "Ouro", "Prata", "Diamante", "Cachoeira"
+        "Sol", "Lua", "Estrela", "Nuvem", "Chuva", "Vento", "Neve", "Fogo",
+        "Água", "Terra", "Pedra", "Areia", "Árvore", "Flor", "Grama", "Folha",
+        "Rio", "Mar", "Montanha", "Floresta", "Céu", "Arco-íris", "Raio",
+        "Trovão", "Neblina", "Onda", "Cachoeira", "Vulcão", "Ilha", "Praia"
       ]
     },
     {
       "id": "corpo",
-      "name": "Corpo Humano",
+      "name": "Corpo",
       "icon": "🫀",
       "words": [
-        "Cabeça", "Cabelo", "Olho", "Nariz", "Boca", "Orelha", "Dente", "Língua",
-        "Pescoço", "Ombro", "Braço", "Cotovelo", "Mão", "Dedo", "Unha",
-        "Peito", "Costas", "Barriga", "Cintura", "Perna", "Joelho", "Pé",
-        "Calcanhar", "Coração", "Pulmão", "Fígado", "Estômago", "Cérebro",
-        "Osso", "Músculo", "Sangue", "Pele", "Sobrancelha", "Bochecha"
+        "Cabeça", "Olho", "Nariz", "Boca", "Orelha", "Cabelo", "Dente",
+        "Língua", "Mão", "Dedo", "Braço", "Perna", "Pé", "Joelho", "Barriga",
+        "Costas", "Ombro", "Pescoço", "Coração", "Cérebro", "Osso", "Sangue",
+        "Pele", "Unha", "Cotovelo", "Calcanhar", "Rosto", "Bigode", "Barba", "Sobrancelha"
       ]
     },
     {
-      "id": "emocoes",
-      "name": "Emoções",
-      "icon": "😊",
+      "id": "esportes",
+      "name": "Esportes",
+      "icon": "⚽",
       "words": [
-        "Alegria", "Felicidade", "Tristeza", "Raiva", "Medo", "Surpresa",
-        "Amor", "Paixão", "Carinho", "Saudade", "Ansiedade", "Nervosismo",
-        "Preocupação", "Calma", "Paz", "Confiança", "Orgulho", "Gratidão",
-        "Esperança", "Desânimo", "Frustração", "Decepção", "Vergonha",
-        "Timidez", "Inveja", "Ciúme", "Irritação", "Tédio", "Solidão",
-        "Curiosidade", "Admiração", "Coragem", "Preguiça", "Empolgação"
+        "Futebol", "Vôlei", "Basquete", "Natação", "Corrida", "Tênis",
+        "Surfe", "Skate", "Boxe", "Judô", "Capoeira", "Ginástica", "Ciclismo",
+        "Dança", "Yoga", "Golfe", "Boliche", "Sinuca", "Xadrez", "Luta"
+      ]
+    },
+    {
+      "id": "musica",
+      "name": "Música",
+      "icon": "🎵",
+      "words": [
+        "Violão", "Guitarra", "Bateria", "Piano", "Flauta", "Tambor",
+        "Pandeiro", "Sanfona", "Violino", "Trompete", "Saxofone", "Cavaquinho",
+        "Gaita", "Triângulo", "Microfone", "Música", "Canção", "Ritmo",
+        "Dança", "Show"
       ]
     },
     {
       "id": "brinquedos",
       "name": "Brinquedos",
-      "icon": "�",
+      "icon": "🧸",
       "words": [
-        "Boneca", "Carrinho", "Bola", "Pipa", "Peteca", "Pião", "Ioiô",
-        "Baralho", "Dominó", "Quebra-cabeça", "Lego", "Massinha", "Bolha de sabão",
-        "Bambolê", "Corda de pular", "Patins", "Bicicleta", "Patinete",
-        "Videogame", "Dado", "Xadrez", "Dama", "Uno", "Jogo da memória",
-        "Escorregador", "Balanço", "Gangorra", "Fantasia", "Máscara", "Espada"
+        "Bola", "Boneca", "Carrinho", "Pipa", "Pião", "Ioiô", "Baralho",
+        "Dado", "Dominó", "Lego", "Massinha", "Bolha", "Bambolê", "Corda",
+        "Patins", "Bicicleta", "Videogame", "Fantasia", "Máscara", "Espada",
+        "Escorregador", "Balanço", "Gangorra", "Quebra-cabeça", "Uno"
       ]
     },
     {
@@ -177,24 +142,31 @@
       "name": "Escola",
       "icon": "📚",
       "words": [
-        "Caderno", "Lápis", "Caneta", "Borracha", "Apontador", "Régua",
-        "Tesoura", "Cola", "Mochila", "Estojo", "Livro", "Dicionário",
-        "Quadro", "Giz", "Carteira", "Professor", "Aluno", "Diretor",
-        "Prova", "Dever de casa", "Recreio", "Merenda", "Uniforme",
-        "Boletim", "Matemática", "Português", "História", "Geografia",
-        "Ciências", "Educação física", "Artes", "Biblioteca"
+        "Caderno", "Lápis", "Caneta", "Borracha", "Régua", "Tesoura", "Cola",
+        "Mochila", "Livro", "Quadro", "Giz", "Professor", "Aluno", "Prova",
+        "Dever", "Recreio", "Merenda", "Uniforme", "Carteira", "Biblioteca",
+        "Matemática", "Português", "História", "Ciências", "Aula"
       ]
     },
     {
-      "id": "frutas",
-      "name": "Frutas",
-      "icon": "🍎",
+      "id": "familia",
+      "name": "Família",
+      "icon": "👨‍👩‍👧‍👦",
       "words": [
-        "Maçã", "Banana", "Laranja", "Limão", "Abacaxi", "Manga", "Uva",
-        "Morango", "Melancia", "Melão", "Mamão", "Goiaba", "Pêssego",
-        "Abacate", "Coco", "Maracujá", "Acerola", "Cajá", "Caju", "Jabuticaba",
-        "Pitanga", "Graviola", "Carambola", "Ameixa", "Kiwi", "Pera",
-        "Tangerina", "Figo", "Romã", "Framboesa", "Amora", "Cupuaçu"
+        "Pai", "Mãe", "Filho", "Filha", "Irmão", "Irmã", "Avô", "Avó",
+        "Tio", "Tia", "Primo", "Prima", "Sobrinho", "Bebê", "Criança",
+        "Adulto", "Idoso", "Marido", "Esposa", "Namorado", "Namorada",
+        "Amigo", "Vizinho", "Padrinho", "Madrinha"
+      ]
+    },
+    {
+      "id": "sentimentos",
+      "name": "Sentimentos",
+      "icon": "😊",
+      "words": [
+        "Alegria", "Tristeza", "Raiva", "Medo", "Amor", "Saudade", "Paz",
+        "Felicidade", "Esperança", "Coragem", "Vergonha", "Preguiça", "Fome",
+        "Sede", "Sono", "Dor", "Surpresa", "Curiosidade", "Ciúme", "Inveja"
       ]
     }
   ]
