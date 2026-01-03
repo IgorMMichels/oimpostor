@@ -304,7 +304,7 @@
 .how-to-play-button {
   margin-top: var(--space-xl);
   width: 100%;
-  max-width: 320px;
+  max-width: 380px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -345,7 +345,7 @@
 
 .htp-text {
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--text-primary);
   z-index: 1;
 }
